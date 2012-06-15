@@ -6,6 +6,9 @@ Quick and dirty python embedded and non-relationnal database.
 For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.  
 Use Pickle for storage.
 
+Can be use in `single` (default) and `multi` user.  
+It means real-time sync or "database connection" sync.
+
 Installation
 ------------
 
@@ -44,11 +47,27 @@ Some filter: ::
 	>>> c.find_one({"artist":"Bieber"})
 	>>>
 
+Tests
+-----
+
+You can run test under `tests/test_test_sofart.py`.  
+And there is a populate script into `tests/populate.py`.  
+
+Performances
+------------
+
+Performances are certainly ridiculous, have a look `here <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.
+
 Docs
 ----
 
 class Database
 ==============
+
+constructor ::
+
+	Database(str(path), str(mode))	: Path is database file path
+									: Mode is single or multi
 
 attributs ::
 
@@ -75,3 +94,6 @@ methods ::
 	remove(str(_id))      		: Remove entrie from collection
 	find_one(dict(query), bool(case_sensitive))      : Return first founded result
 	find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded
+
+
+See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.

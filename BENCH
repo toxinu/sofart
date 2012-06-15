@@ -1,0 +1,67 @@
+ =====
+ Multi
+ =====
+
+  :: Entrie style         :
+ {"It's just mind-blowingly awesome. I apologize, and I wish I was more articulate, but it's hard to be articulate when your mind's blown\xe2\x80\x94but in a very good way.": '123123_Dzajkdjazjdazhdhjazjkdhajzk', 'Haricot': "I saw for the first time the earth's shape. I could easily see the shores of continents, islands, great rivers, folds of the terrain, large bodies of water. The horizon is dark blue, smoothly turning to black. . . the feelings which filled me I can express with one word\xe2\x80\x94joy.", 'Jambon': 'Godness'}
+
+ :: Collections          : 1
+ :: Entrie per collection: 10
+ :: Total in second   : 4.86958694458
+ :: Second per entrie : 0.486958694458
+
+ :: Collections          : 1
+ :: Entrie per collection: 20
+ :: Total in second   : 21.0036640167
+ :: Second per entrie : 1.05018320084
+
+ :: Collections          : 1
+ :: Entrie per collection: 100
+ :: Total in second   : 172.021306038
+ :: Second per entrie : 1.72021306038
+
+ :: Collections          : 2
+ :: Entrie per collection: 10
+ :: Total in second   : 12.7099590302
+ :: Second per entrie : 0.635497951508
+
+
+ :: Collections          : 2
+ :: Entrie per collection: 20
+ :: Total in second   : 18.7968459129
+ :: Second per entrie : 0.469921147823
+
+
+======
+Single
+======
+
+ :: Collections          : 1
+ :: Entrie per collection: 10
+ :: Total in second   : 1.22679805756
+ :: Second per entrie : 0.122679805756
+
+ :: Collections          : 1
+ :: Entrie per collection: 20
+ :: Total in second   : 1.18884301186
+ :: Second per entrie : 0.0594421505928
+
+ :: Collections          : 1
+ :: Entrie per collection: 100
+ :: Total in second   : 1.43443202972
+ :: Second per entrie : 0.0143443202972
+
+ :: Collections          : 2
+ :: Entrie per collection: 10
+ :: Total in second   : 1.54977989197
+ :: Second per entrie : 0.0774889945984
+
+ :: Collections          : 2
+ :: Entrie per collection: 20
+ :: Total in second   : 1.70359182358
+ :: Second per entrie : 0.0425897955894
+
+ :: Collections          : 5
+ :: Entrie per collection: 300
+ :: Total in second   : 2.74850487709
+ :: Second per entrie : 0.00183233658473

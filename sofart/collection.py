@@ -14,28 +14,40 @@ class Collection(object):
 		if not isinstance(new_collection, list):
 			raise CollectionError('Collection update can\'t be empty')
 		try:
-			tmp = self.db.db
-			tmp[self.name] = new_collection
-			pickle.dump(tmp, open(self.path, 'w'))
-			del tmp
+			if self.db.mode == "multi":
+				tmp = self.db.db
+				tmp[self.name] = new_collection
+				pickle.dump(tmp, open(self.path, 'w'))
+				del tmp
+			elif self.db.mode == "single":
+				self.db.db[self.name] == new_collection
 		except:
 			raise CollectionError('Seems to be invalid')
 			
 	def save(self, enreg):
 		if not isinstance(enreg, dict):
 			raise CollectionError('Save is not valid')
+
 		enreg['_id'] = str(uuid.uuid4())
-		tmp = self.entries
-		tmp.append(enreg)
-		self.update(tmp)
-		self.db.add_id(enreg['_id'])
-		del tmp
+		if self.db.mode == "single":
+			self.entries.append(enreg)
+			self.db.add_id(enreg['_id'])
+		elif self.db.mode == "multi":
+			tmp = self.entries
+			tmp.append(enreg)
+			self.update(tmp)
+			self.db.add_id(enreg['_id'])
+			del tmp
 
 	def remove(self, enreg_id):
-		tmp = self.entries
-		tmp[:] = [d for d in tmp if d.get('_id') != str(enreg_id)]
-		self.update(tmp)
-		self.db.del_id(str(enreg_id))
+		if self.db.mode == "multi":
+			tmp = self.entries
+			tmp[:] = [d for d in tmp if d.get('_id') != str(enreg_id)]
+			self.update(tmp)
+			self.db.del_id(str(enreg_id))
+		elif self.db.mode == "single":
+			self.entries[:] = [d for d in self.entries if d.get('_id') != str(enreg_id)]
+			self.db.del_id(str(enreg_id))
 
 	def find_one(self, query={}, case_sensitive=False):
 		if query:
@@ -91,3 +103,7 @@ class Collection(object):
 				current_item += 1
 				result.append(enreg)
 		return result
+
+	def __del__(self):
+		if self.db.mode == "single":
+			pickle.dump(self.db.db, open(self.path, 'w'))
