@@ -2,8 +2,10 @@
 Sofart
 ======
 
-Quick and dirty python embedded and non-relationnal database.  
-For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.  
+Quick and dirty python embedded and non-relationnal database.
+
+For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
+
 Use Pickle for storage.
 
 Can be use in `single` (default) and `multi` user.  
@@ -12,7 +14,7 @@ It means real-time sync or "database connection" sync.
 Installation
 ------------
 
-Not yet available on pypi. So do it with source.::
+Install with pip: ::
 
 	pip install sofart
 
@@ -86,7 +88,7 @@ class Collection
 
 attributs ::
 
-	name : return collection name
+	name                        : return collection name
 
 methods ::
 
