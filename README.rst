@@ -2,16 +2,16 @@
 Sofart
 ======
 
-Quick and dirty python embedded and non-relationnal database.
+Quick and dirty python embedded and non-relationnal database.  
+For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.  
+Use Pickle for storage.
 
 Installation
 ------------
 
 Not yet available on pypi. So do it with source.::
 
-	git clone git://github.com/Socketubs/sofart.git
-	cd sofart
-	python setup.py install
+	pip install sofart
 
 Example
 -------
@@ -52,15 +52,15 @@ class Database
 
 attributs ::
 
-	path        : Return database path
-	collections : Return database collections list
+	path        				: Return database path
+	collections 				: Return database collections list
 
 methods ::
 
-	new_collection(str(name))  : Create new collection
-	drop_collection(str(name)) : Drop collection
-	get_collections()          : Return database collections list (same as `collections` attribut)
-	get(str(name))             : Return `Collection` object
+	new_collection(str(name))  	: Create new collection
+	drop_collection(str(name))	: Drop collection
+	get_collections()          	: Return database collections list (same as `collections` attribut)
+	get(str(name))             	: Return `Collection` object
 
 class Collection
 ================
@@ -71,7 +71,7 @@ attributs ::
 
 methods ::
 
-	save(dict(enreg))     : Save entrie into collection
-	remove(str(_id))      : Remove entrie from collection
+	save(dict(enreg))   		: Save entrie into collection
+	remove(str(_id))      		: Remove entrie from collection
 	find_one(dict(query), bool(case_sensitive))      : Return first founded result
 	find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded

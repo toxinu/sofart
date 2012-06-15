@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 from sofart import Database
 
-db_path = '/tmp/test_sofart.db'
+db_path = '/tmp/so.fart'
 
 class TestSetup(object):
 	def setUp(self):
@@ -55,14 +55,14 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test_07_nosensitive(self):
 		d = Database(db_path)
 		c = d.get('test')
-		r = c.find_one({"artist": "JambON", case_sensitive=False})
+		r = c.find_one({"artist": "JambON"}, case_sensitive=False)
 		if not r:
 			raise Exception('Non-sensitive failed')
 
 	def test_08_sensitive(self):
 		d = Database(db_path)
 		c = d.get('test')
-		r = c.find_one({"artist": "JamBOn", case_sensitive=True})
+		r = c.find_one({"artist": "JamBOn"}, case_sensitive=True)
 		if r:
 			raise Exception('Sensitive failed')
 
@@ -71,7 +71,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c = d.get('test')
 		r = c.find_one({"artist": "Jambon"})['_id']
 		c.remove(r)
-		if not c.find_one({"artist": "Jambon"}):
+		if c.find_one({"artist": "Jambon"}):
 			raise Exception('Enreg not removed')
 
 if __name__ == '__main__':

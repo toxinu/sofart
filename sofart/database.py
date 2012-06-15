@@ -43,9 +43,9 @@ class Database(object):
 		tmp = self.db
 		try:
 			tmp['index']['ids'].remove(old_id)
+			self.update(tmp)
 		except:
 			raise DatabaseError('Id is not in database')
-		self.update(tmp)
 
 	def new_collection(self, collection_name):
 		if not collection_name in self.get_collections():

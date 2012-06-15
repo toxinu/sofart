@@ -39,25 +39,27 @@ class Collection(object):
 
 	def find_one(self, query={}, case_sensitive=False):
 		if query:
-			for key,value in query.items():
-				if enreg.get(key, False):
-					if isinstance(enreg[key], str):
-						if not case_sensitive:
-							if not enreg[key].lower() == value.lower():
-								counter = False
-								break
+			for enreg in self.entries:
+				counter = True
+				for key,value in query.items():
+					if enreg.get(key, False):
+						if isinstance(enreg[key], str):
+							if not case_sensitive:
+								if not enreg[key].lower() == value.lower():
+									counter = False
+									break
+							else:
+								if not enreg[key] == value:
+									counter = False
+									break
 						else:
 							if not enreg[key] == value:
 								counter = False
 								break
 					else:
-						if not enreg[key] == value:
-							counter = False
-							break
-				else:
-					counter = False
-			if counter:
-				return enreg
+						counter = False
+				if counter:
+					return enreg
 		else:
 			return self.entries[0]
 
