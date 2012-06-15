@@ -51,13 +51,16 @@ class Collection(object):
 			return self.entries[0]
 
 	def find(self, filter=None):
-		result = []
-		for enreg in self.entries:
-			counter = True
-			for key,value in filter.items():
-				if not enreg.get(key, False) == value:
-					counter = False
-					break
-			if counter:
-				result.append(enreg)
-		return result
+		if filter:
+			result = []
+			for enreg in self.entries:
+				counter = True
+				for key,value in filter.items():
+					if not enreg.get(key, False) == value:
+						counter = False
+						break
+				if counter:
+					result.append(enreg)
+			return result
+		else:
+			self.find_one()
