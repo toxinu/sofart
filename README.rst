@@ -71,8 +71,8 @@ constructor ::
 
 attributs ::
 
-	path        				: Return database path
-	collections 				: Return database collections list
+	path                            : Return database path
+	collections                     : Return database collections list
 
 methods ::
 
