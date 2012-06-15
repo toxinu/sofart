@@ -44,7 +44,7 @@ Play with collection: ::
 	>>> c.remove('b2d6bf60-6c11-4e26-9357-efb28056e60d')
 	>>> c.find_one()
 	>>>
-	
+
 Some filter: ::
 
 	>>> c.find_one({"artist": "Jambon"})
@@ -85,16 +85,18 @@ methods ::
 	drop_collection(str(name))	: Drop collection
 	get_collections()          	: Return database collections list (same as `collections` attribut)
 	get(str(name))             	: Return `Collection` object
+	total_entries()             : Return total database entries
 
 class Collection
 ================
 
 attributs ::
 
-	name                        : return collection name
+	name                        : Return collection name
 
 methods ::
 
+	total_entries()             : Return total collection entries
 	save(dict(enreg))   		: Save entrie into collection
 	remove(str(_id))      		: Remove entrie from collection
 	find_one(dict(query), bool(case_sensitive))      : Return first founded result

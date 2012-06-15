@@ -9,7 +9,9 @@ class Collection(object):
 		self.path = path
 		self.entries = db.db[self.name]
 		self.db = db
-		self.total_entries = len(db.db[self.name])
+
+	def total_entries(self):
+		return len(self.entries)
 
 	def update(self, new_collection):
 		if not isinstance(new_collection, list):

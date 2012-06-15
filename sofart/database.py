@@ -16,11 +16,13 @@ class Database(object):
 
 		if self.mode == "single":
 			self.initialize()
-		elif self.mode == "mutli":
+		elif self.mode == "multi":
 			self.db = self.initialize()
 
 		self.collections = self.get_collections()
-		self.total_entries = len(self.db['index']['ids'])
+
+	def total_entries(self):
+		return len(self.db['index']['ids'])
 
 	def initialize(self):
 		if not os.path.exists(self.path):
