@@ -44,28 +44,35 @@ Some filter: ::
 	>>> c.find_one({"artist":"Bieber"})
 	>>>
 
+----
 Docs
 ----
 
-- class Database
+class Database
+==============
 
 attributs ::
-	path : Return database path
+
+	path        : Return database path
 	collections : Return database collections list
 
 methods ::
-	new_collection(str(name)) : Create new collection
-	drop_collection(str(name)) : Drop collection
-	get_collections() : Return database collections list (same as `collections` attribut)
-	get(str(name)) : Return `Collection` object
 
-- class Collection
+	new_collection(str(name))  : Create new collection
+	drop_collection(str(name)) : Drop collection
+	get_collections()          : Return database collections list (same as `collections` attribut)
+	get(str(name))             : Return `Collection` object
+
+class Collection
+================
 
 attributs ::
+
 	name : return collection name
 
 methods ::
-	save(dict(enreg)) : Save entrie into collection
-	remove(str(_id)) : Remove entrie from collection
-	find_one(dict(query), bool(case_sensitive)) : Return first founded result
+
+	save(dict(enreg))     : Save entrie into collection
+	remove(str(_id))      : Remove entrie from collection
+	find_one(dict(query), bool(case_sensitive))      : Return first founded result
 	find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded
