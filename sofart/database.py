@@ -20,6 +20,7 @@ class Database(object):
 			self.db = self.initialize()
 
 		self.collections = self.get_collections()
+		self.total_entries = len(self.db['index']['ids'])
 
 	def initialize(self):
 		if not os.path.exists(self.path):

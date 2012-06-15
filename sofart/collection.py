@@ -9,6 +9,7 @@ class Collection(object):
 		self.path = path
 		self.entries = db.db[self.name]
 		self.db = db
+		self.total_entries = len(db.db[self.name])
 
 	def update(self, new_collection):
 		if not isinstance(new_collection, list):
@@ -103,7 +104,3 @@ class Collection(object):
 				current_item += 1
 				result.append(enreg)
 		return result
-
-	def __del__(self):
-		if self.db.mode == "single":
-			pickle.dump(self.db.db, open(self.path, 'w'))

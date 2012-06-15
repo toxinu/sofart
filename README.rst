@@ -40,7 +40,10 @@ Play with collection: ::
 	...             "track": "I love my jambon"}
 	>>> c.save(post)
 	>>> c.find_one()
-	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}
+	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}$
+	>>> c.remove('b2d6bf60-6c11-4e26-9357-efb28056e60d')
+	>>> c.find_one()
+	>>>
 	
 Some filter: ::
 
@@ -78,7 +81,7 @@ attributs ::
 
 methods ::
 
-	new_collection(str(name))  	: Create new collection
+	new_collection(str(name))   : Create new collection
 	drop_collection(str(name))	: Drop collection
 	get_collections()          	: Return database collections list (same as `collections` attribut)
 	get(str(name))             	: Return `Collection` object
