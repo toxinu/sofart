@@ -44,7 +44,6 @@ Some filter: ::
 	>>> c.find_one({"artist":"Bieber"})
 	>>>
 
-----
 Docs
 ----
 
