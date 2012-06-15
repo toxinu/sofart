@@ -33,34 +33,59 @@ class Collection(object):
 
 	def remove(self, enreg_id):
 		tmp = self.entries
-		tmp[:] = [d for d in tmp if d.get('_id') != enreg_id]
+		tmp[:] = [d for d in tmp if d.get('_id') != str(enreg_id)]
 		self.update(tmp)
-		self.db.del_id(enreg_id)
+		self.db.del_id(str(enreg_id))
 
-	def find_one(self, filter=None):
-		if filter:
-			for enreg in self.entries:
-				counter = True
-				for key,value in filter.items():
-					if not enreg.get(key, False) == value:
-						counter = False
-						break
-				if counter:
-					return enreg
+	def find_one(self, query={}, case_sensitive=False):
+		if query:
+			for key,value in query.items():
+				if enreg.get(key, False):
+					if isinstance(enreg[key], str):
+						if not case_sensitive:
+							if not enreg[key].lower() == value.lower():
+								counter = False
+								break
+						else:
+							if not enreg[key] == value:
+								counter = False
+								break
+					else:
+						if not enreg[key] == value:
+							counter = False
+							break
+				else:
+					counter = False
+			if counter:
+				return enreg
 		else:
 			return self.entries[0]
 
-	def find(self, filter=None):
-		if filter:
-			result = []
-			for enreg in self.entries:
-				counter = True
-				for key,value in filter.items():
-					if not enreg.get(key, False) == value:
-						counter = False
-						break
-				if counter:
-					result.append(enreg)
-			return result
-		else:
-			self.find_one()
+	def find(self, query={}, nb=50, case_sensitive=False):
+		current_item = 0
+		result = []
+		for enreg in self.entries:
+			if current_item >= nb:
+				break
+			counter = True
+			for key,value in query.items():
+				if enreg.get(key, False):
+					if isinstance(enreg[key], str):
+						if not case_sensitive:
+							if not enreg[key].lower() == value.lower():
+								counter = False
+								break
+						else:
+							if not enreg[key] == value:
+								counter = False
+								break
+					else:
+						if not enreg[key] == value:
+							counter = False
+							break
+				else:
+					counter = False
+			if counter:
+				current_item += 1
+				result.append(enreg)
+		return result

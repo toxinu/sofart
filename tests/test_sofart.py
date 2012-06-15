@@ -52,11 +52,24 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		if r:
 			raise Exception('Enreg found')
 
-	def test_07_removeenreg(self):
+	def test_07_nosensitive(self):
+		d = Database(db_path)
+		c = d.get('test')
+		r = c.find_one({"artist": "JambON", case_sensitive=False})
+		if not r:
+			raise Exception('Non-sensitive failed')
+
+	def test_08_sensitive(self):
+		d = Database(db_path)
+		c = d.get('test')
+		r = c.find_one({"artist": "JamBOn", case_sensitive=True})
+		if r:
+			raise Exception('Sensitive failed')
+
+	def test_09_removeenreg(self):
 		d = Database(db_path)
 		c = d.get('test')
 		r = c.find_one({"artist": "Jambon"})['_id']
-		print(r)
 		c.remove(r)
 		if not c.find_one({"artist": "Jambon"}):
 			raise Exception('Enreg not removed')
