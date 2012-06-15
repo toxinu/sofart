@@ -66,8 +66,8 @@ class Database
 
 constructor ::
 
-	Database(str(path), str(mode))	: Path is database file path
-									: Mode is single or multi
+	Database(str(path), str(mode))  : Path is database file path
+	                                : Mode is single or multi
 
 attributs ::
 
