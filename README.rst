@@ -4,12 +4,10 @@ Sofart
 
 Quick and dirty python embedded and non-relationnal database.
 
-| For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
-| Use Pickle for storage.
+For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
+Use Pickle for storage.
 
-::
-
-	Can be use in ``single`` (default) and ``multi`` user.
+	Can be use in single (default) and multi user.
 	It means real-time sync or "database connection" sync.
 
 Installation
@@ -62,8 +60,6 @@ Performances
 ------------
 
 Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
-
-::
 
 	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when database is closed.  
 	In otherwise ``multi`` down data at each request.
