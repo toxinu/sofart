@@ -61,7 +61,7 @@ And there is a populate script into `tests/populate.py`.
 Performances
 ------------
 
-Performances are certainly ridiculous, have a look `here <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.
+Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.
 
 Docs
 ----
@@ -71,36 +71,49 @@ class Database
 
 constructor ::
 
-	Database(str(path), str(mode))  : Path is database file path
-	                                : Mode is single or multi
+	Database(str(path), str(mode))
+		-> Path is database file path
+	    -> Mode is single or multi
 
 attributs ::
 
-	path                            : Return database path
-	collections                     : Return database collections list
+	path
+		-> Return database path
+	collections
+		-> Return database collections list
 
 methods ::
 
-	new_collection(str(name))   : Create new collection
-	drop_collection(str(name))	: Drop collection
-	get_collections()          	: Return database collections list (same as `collections` attribut)
-	get(str(name))             	: Return `Collection` object
-	total_entries()             : Return total database entries
+	new_collection(str(name))
+		-> Create new collection
+	drop_collection(str(name))
+		-> Drop collection
+	get_collections()
+		-> Return database collections list (same as `collections` attribut)
+	get(str(name))
+		-> Return `Collection` object
+	total_entries()
+		-> Return total database entries
 
 class Collection
 ================
 
 attributs ::
 
-	name                        : Return collection name
+	name
+		-> Return collection name
 
 methods ::
 
-	total_entries()             : Return total collection entries
-	save(dict(enreg))   		: Save entrie into collection
-	remove(str(_id))      		: Remove entrie from collection
-	find_one(dict(query), bool(case_sensitive))      : Return first founded result
-	find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded
-
+	total_entries()
+		-> Return total collection entries
+	save(dict(enreg))
+		-> Save entrie into collection
+	remove(str(_id))
+		-> Remove entrie from collection
+	find_one(dict(query), bool(case_sensitive))
+		-> Return first founded result
+	find(dict(query), bool(case_sensitive), int(nb))
+		-> Return `nb` result founded
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
