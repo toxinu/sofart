@@ -8,6 +8,7 @@ Quick and dirty python embedded and non-relationnal database.
 | Use Pickle for storage.
 
 
+
 | Can be use in ``single`` (default) and ``multi`` user.
 | It means real-time sync or "database connection" sync.
 
