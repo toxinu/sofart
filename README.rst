@@ -61,7 +61,7 @@ And there is a populate script into ``tests/populate.py``.
 Performances
 ------------
 
-| Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
+Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
 
 ::
 
