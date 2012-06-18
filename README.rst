@@ -77,7 +77,7 @@ Remember that if someone write Ruby or other language driver for sofart, maybe u
 Todo
 ----
 
-- Take a look at ``msgpack`` (`infos <http://jmoiron.net/blog/python-serialization/>`_._
+- Take a look at ``msgpack`` (`infos <http://jmoiron.net/blog/python-serialization/>`_).
 
 Docs
 ----
