@@ -19,8 +19,8 @@ class Database(object):
 		self.path = path
 
 		self.serializer = serializer
-		_backend = __import__("sofart.backends.%s" % self.serializer)
-		_backend = sys.modules["sofart.backends.%s" % self.serializer]
+		_backend = __import__("sofart.backends._%s" % self.serializer)
+		_backend = sys.modules["sofart.backends._%s" % self.serializer]
 		self.backend = _backend.Backend(self.path)
 
 		if self.mode == "single":

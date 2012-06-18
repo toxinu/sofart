@@ -27,3 +27,4 @@ pip-log.txt
 .mr.developer.cfg
 
 tests/so.fart.db
+tests/.DS_Store
