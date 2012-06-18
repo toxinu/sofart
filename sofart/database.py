@@ -1,4 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pickle
+import uuid
 import os
 
 from .exceptions import DatabaseError
@@ -49,6 +53,25 @@ class Database(object):
 		except:
 			raise DatabaseError('Update problem')
 
+	def save(self, record, collection):
+		if not isinstance(record, dict):
+			raise CollectionError('Save is not valid')
+
+		record_id = str(uuid.uuid4())
+		record['_id'] = record_id
+		#print(' :: record_id : %s' % record_id)
+		#print(' :: record    : %s' % record)
+		if self.mode == "single":
+			self.db[collection].append(record)
+			self.add_id(record_id)
+
+		elif self.mode == "multi":
+			tmp = self.db[collection]
+			tmp.append(record)
+			self.update(tmp)
+			self.add_id(record_id)
+			del tmp
+
 	def add_id(self, new_id):
 		if self.mode == "multi":
 			tmp = self.db
@@ -84,14 +107,21 @@ class Database(object):
 		try:
 			if self.mode == "multi":
 				tmp = self.db
+				ids = [e['_id'] for e in tmp[collection_name]]
 				del tmp[collection_name]
 				tmp['index']['collections'].remove(str(collection_name))
+				for i in ids:
+					self.del_id(i)
 				self.update(tmp)
 				del tmp
 			elif self.mode == "single":
+				ids = [e['_id'] for e in self.db[collection_name]]
+				print(ids)
+				for i in ids:
+					self.del_id(i)
 				del self.db[collection_name]
-				self.db['index']['collections'].remove(str(collection_name))
-		except:
+				self.db['index']['collections'].remove(collection_name)
+		except KeyError as err:
 			pass
 
 	def get_collections(self):
@@ -102,6 +132,12 @@ class Database(object):
 			raise DatabaseError('Collection not exist')
 		return Collection(collection_name, self.path, self)
 
-	def __del__(self):
-		if self.mode == "single":
+	def sync(self):
+		if self.mode == 'single':
 			pickle.dump(self.db, open(self.path, 'w'))
+
+	def close(self):
+		self.sync()
+
+	def __del__(self):
+		self.sync()

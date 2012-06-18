@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pickle
 import uuid
 
@@ -27,30 +30,37 @@ class Collection(object):
 		except:
 			raise CollectionError('Seems to be invalid')
 			
-	def save(self, enreg):
-		if not isinstance(enreg, dict):
+	def save(self, record):
+		if not isinstance(record, dict):
 			raise CollectionError('Save is not valid')
 
-		enreg['_id'] = str(uuid.uuid4())
-		if self.db.mode == "single":
-			self.entries.append(enreg)
-			self.db.add_id(enreg['_id'])
-		elif self.db.mode == "multi":
-			tmp = self.entries
-			tmp.append(enreg)
-			self.update(tmp)
-			self.db.add_id(enreg['_id'])
-			del tmp
+		self.db.save(record, self.name)
+
+		#record_id = str(uuid.uuid4())
+		#record.update({'_id': record_id})
+		#print(' :: record_id : %s' % record_id)
+		#print(' :: record    : %s' % record)
+		#if self.db.mode == "single":
+		#	self.db.db[self.name] += [record]
+		#	self.db.add_id(record_id)
+
+		#elif self.db.mode == "multi":
+		#	tmp = self.entries
+		#	tmp.append(record)
+		#	self.update(tmp)
+		#	self.db.add_id(record_ir)
+		#	del tmp
+		#del record
 
 	def remove(self, enreg_id):
 		if self.db.mode == "multi":
 			tmp = self.entries
-			tmp[:] = [d for d in tmp if d.get('_id') != str(enreg_id)]
+			tmp[:] = [d for d in tmp if d.get('_id') != enreg_id]
 			self.update(tmp)
-			self.db.del_id(str(enreg_id))
+			self.db.del_id(enreg_id)
 		elif self.db.mode == "single":
-			self.entries[:] = [d for d in self.entries if d.get('_id') != str(enreg_id)]
-			self.db.del_id(str(enreg_id))
+			self.entries[:] = [d for d in self.entries if d.get('_id') != enreg_id]
+			self.db.del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
 		if query:
@@ -106,3 +116,13 @@ class Collection(object):
 				current_item += 1
 				result.append(enreg)
 		return result
+
+	def sync(self):
+		if self.db.mode == 'single':
+			pickle.dump(self.db.db, open(self.path, 'w'))
+
+	def close(self):
+		self.sync()
+
+	#def __del__(self):
+	#	self.sync()
