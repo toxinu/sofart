@@ -93,6 +93,8 @@ class Database
     get_collections() : Return database collections list (same as `collections` attribut)
     get(str(name))    : Return `Collection` object
     total_entries()   : Return total database entries
+    save()            : Save every changes in database file
+    close()           : Same as save()
 
 class Collection
 ================
@@ -106,6 +108,8 @@ class Collection
     total_entries()   : Return total collection entries
     save(dict(enreg)) : Save entrie into collection
     remove(str(_id))  : Remove entrie from collection
+    save()            : Save every changes in database file
+    close()           : Same as save()
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
     find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded
 
