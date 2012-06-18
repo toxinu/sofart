@@ -64,11 +64,7 @@ Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socket
 	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when database is closed.  
 	In otherwise ``multi`` down data at each request.
 
-Todo
-----
-
-- Add close database and collection method
-- Add save database and collection method
+But you can have a pretty data control with ``save`` method which down data in file when you call it.
 
 Docs
 ----
