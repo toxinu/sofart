@@ -21,5 +21,5 @@ setup(
 	license=open("LICENSE").read(),
 	author="Geoffrey Lehée",
 	author_email="geoffrey@lehee.name",
-	packages = ['sofart']
+	packages = ['sofart', 'sofart.backends']
 )
