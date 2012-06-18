@@ -53,7 +53,7 @@ Some filter: ::
 Tests
 -----
 
-You can run test under ``tests/test_test_sofart.py``.  
+You can run test under ``tests/test_sofart.py``.  
 And there is a populate script into ``tests/populate.py``.  
 
 Performances
