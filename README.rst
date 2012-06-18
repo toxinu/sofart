@@ -5,7 +5,8 @@ Sofart
 Quick and dirty python embedded and non-relationnal database.
 
 For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
-Use Pickle for storage.
+
+There are two backends at this time, ``Pickle`` and ``Json`` for storage.
 
 	Can be use in single (default) and multi user.
 	It means real-time sync or "database connection" sync.
@@ -66,6 +67,13 @@ Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socket
 
 But you can have a pretty data control with ``save`` method which down data in file when you call it.
 
+Misc.
+-----
+
+You can easily write your own serializer(backend), have a look at ``backends/json`` or ``pickle`` file.
+
+Remember that if someone write Ruby or other language driver for sofart, maybe using ``Pickle`` could be difficult...
+
 Docs
 ----
 
@@ -74,8 +82,9 @@ class Database
 
 *constructor* ::
 
-    Database(str(path), str(mode)) : Path is database file path
-                                   : Mode is single or multi
+    Database(str(path), str(mode), str(serializer)) : Path is database file path
+                                                    : Mode is single or multi
+                                                    : Serializer is backend (json, pickle...)
 
 *attributs* ::
 

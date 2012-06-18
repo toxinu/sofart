@@ -18,8 +18,8 @@ db_path = './so.fart.db'
 mode = 'single'
 serializer = 'pickle'
 
-_backend = __import__("sofart.backends._%s" % serializer)
-_backend = sys.modules["sofart.backends._%s" % serializer]
+_backend = __import__("sofart.backends.%s" % serializer)
+_backend = sys.modules["sofart.backends.%s" % serializer]
 backend = _backend.Backend(db_path)
 
 class TestSetup(object):
