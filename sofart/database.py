@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pickle
 import uuid
 import os
-import copy
+import sys
 
 from .exceptions import DatabaseError
 from .collection import Collection
 
 class Database(object):
-	def __init__(self, path=None, mode="single"):
+	def __init__(self, path = None, mode = "single", serializer = "json"):
 		if not path:
 			raise DatabaseError('Need path')
 	
@@ -18,6 +17,11 @@ class Database(object):
 
 		self.mode = mode
 		self.path = path
+
+		self.serializer = serializer
+		_backend = __import__("sofart.backends._%s" % self.serializer)
+		_backend = sys.modules["sofart.backends._%s" % self.serializer]
+		self.backend = _backend.Backend(self.path)
 
 		if self.mode == "single":
 			self.initialize()
@@ -31,24 +35,27 @@ class Database(object):
 
 	def initialize(self):
 		if not os.path.exists(self.path):
-			pickle.dump(self.init_schema, open(self.path, 'w'))
+			try:
+				self.backend.dump(self.init_schema)
+			except:
+				raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
 		try:
-			db = pickle.load(open(self.path, 'r')) 
+			db = self.backend.load() 
 			if not isinstance(db , dict):
-				raise DatabaseError('Seems to be corrupt')
+				raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
 			if self.mode == "multi":
 				return db
 			elif self.mode == "single":
 				self.db = db
-		except EOFError:
-			raise DatabaseError('Seems to be corrupt')
+		except:
+			raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
 
 	def update(self, new_db):
 		if not isinstance(new_db, dict):
 			raise DatabaseError('Database update can\'t be empty')
 		try:
 			if self.mode == "multi":
-				pickle.dump(new_db, open(self.path, 'w'))
+				self.backend.dump(self.db)
 			elif self.mode == "single":
 				self.db = new_db
 		except:
@@ -114,8 +121,7 @@ class Database(object):
 		return Collection(collection_name, self.path, self)
 
 	def sync(self):
-		if self.mode == 'single':
-			pickle.dump(self.db, open(self.path, 'w'))
+		self.backend.dump(self.db)
 
 	def close(self):
 		self.sync()

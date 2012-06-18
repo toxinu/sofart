@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pickle
 import uuid
 import copy
 
@@ -24,7 +23,7 @@ class Collection(object):
 			if self.db.mode == "multi":
 				tmp = self.db.db
 				tmp[self.name] = new_collection
-				pickle.dump(tmp, open(self.path, 'w'))
+				self.db.backend.dump(tmp)
 				del tmp
 			elif self.db.mode == "single":
 				self.db.db[self.name] == new_collection
@@ -115,11 +114,10 @@ class Collection(object):
 		return result
 
 	def sync(self):
-		if self.db.mode == 'single':
-			pickle.dump(self.db.db, open(self.path, 'w'))
+		self.db.sync()
 
 	def close(self):
 		self.sync()
 
-	#def __del__(self):
-	#	self.sync()
+	def __del__(self):
+		self.sync()
