@@ -4,6 +4,9 @@ class Backend(object):
 	def __init__(self, path):
 		self.path = path
 
+	def init(self, schema):
+		self.dump(schema)
+
 	def dump(self, dump):
 		json.dump(dump, open(self.path, 'w'))
 

@@ -16,7 +16,7 @@ from sofart import Database
 
 db_path = './so.fart.db'
 mode = 'single'
-serializer = 'pickle'
+serializer = 'json'
 
 _backend = __import__("sofart.backends.%s" % serializer)
 _backend = sys.modules["sofart.backends.%s" % serializer]
