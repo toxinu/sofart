@@ -4,6 +4,7 @@
 import pickle
 import uuid
 import os
+import copy
 
 from .exceptions import DatabaseError
 from .collection import Collection
@@ -53,25 +54,6 @@ class Database(object):
 		except:
 			raise DatabaseError('Update problem')
 
-	def save(self, record, collection):
-		if not isinstance(record, dict):
-			raise CollectionError('Save is not valid')
-
-		record_id = str(uuid.uuid4())
-		record['_id'] = record_id
-		#print(' :: record_id : %s' % record_id)
-		#print(' :: record    : %s' % record)
-		if self.mode == "single":
-			self.db[collection].append(record)
-			self.add_id(record_id)
-
-		elif self.mode == "multi":
-			tmp = self.db[collection]
-			tmp.append(record)
-			self.update(tmp)
-			self.add_id(record_id)
-			del tmp
-
 	def add_id(self, new_id):
 		if self.mode == "multi":
 			tmp = self.db
@@ -116,7 +98,6 @@ class Database(object):
 				del tmp
 			elif self.mode == "single":
 				ids = [e['_id'] for e in self.db[collection_name]]
-				print(ids)
 				for i in ids:
 					self.del_id(i)
 				del self.db[collection_name]

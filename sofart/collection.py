@@ -3,6 +3,7 @@
 
 import pickle
 import uuid
+import copy
 
 from .exceptions import CollectionError
 
@@ -34,23 +35,19 @@ class Collection(object):
 		if not isinstance(record, dict):
 			raise CollectionError('Save is not valid')
 
-		self.db.save(record, self.name)
-
-		#record_id = str(uuid.uuid4())
-		#record.update({'_id': record_id})
-		#print(' :: record_id : %s' % record_id)
-		#print(' :: record    : %s' % record)
-		#if self.db.mode == "single":
-		#	self.db.db[self.name] += [record]
-		#	self.db.add_id(record_id)
-
-		#elif self.db.mode == "multi":
-		#	tmp = self.entries
-		#	tmp.append(record)
-		#	self.update(tmp)
-		#	self.db.add_id(record_ir)
-		#	del tmp
-		#del record
+		record = copy.copy(record)
+		record_id = str(uuid.uuid4())
+		record['_id'] = record_id
+		if self.db.mode == "single":
+			self.entries.append(record)
+			self.db.add_id(record_id)
+		elif self.db.mode == "multi":
+			tmp = self.entries
+			tmp.append(record)
+			self.update(tmp)
+			self.db.add_id(record_ir)
+			del tmp
+		del record
 
 	def remove(self, enreg_id):
 		if self.db.mode == "multi":
