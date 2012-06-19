@@ -26,5 +26,5 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-tests/so.fart.db
+tests/so.fart.*
 tests/.DS_Store
