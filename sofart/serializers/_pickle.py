@@ -8,10 +8,15 @@ class Serializer(object):
 		self.path = path
 
 	def init(self, schema):
-		pickle.dump(schema, open(self.path, 'w'))
+		with open(self.path, 'wb') as f:
+			pickle.dump(schema, f)
+		f.closed
 
 	def dump(self, dump):
-		pickle.dump(dump, open(self.path, 'w'))
+		with open(self.path, 'wb') as f:
+			pickle.dump(dump, f)
+		f.closed
 
 	def load(self):
-		return pickle.load(open(self.path, 'r'))
+		with open(self.path, 'rb') as f:
+			return pickle.load(f)

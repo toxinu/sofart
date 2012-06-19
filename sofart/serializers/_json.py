@@ -8,7 +8,10 @@ class Serializer(object):
 		self.dump(schema)
 
 	def dump(self, dump):
-		json.dump(dump, open(self.path, 'w'))
+		with open(self.path, 'w') as f:
+			json.dump(dump, f)
+		f.closed
 
 	def load(self):
-		return json.load(open(self.path, 'r'))
+		with open(self.path, 'r') as f:
+			return json.load(f)

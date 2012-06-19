@@ -64,7 +64,7 @@ class Collection(object):
 				counter = True
 				for key,value in query.items():
 					if enreg.get(key, False):
-						if isinstance(enreg[key], str):
+						if isinstance(enreg[key], str) or isinstance(enreg[key], unicode):
 							if not case_sensitive:
 								if not enreg[key].lower() == value.lower():
 									counter = False

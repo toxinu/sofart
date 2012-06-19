@@ -9,7 +9,7 @@ from .exceptions import DatabaseError
 from .collection import Collection
 
 class Database(object):
-	def __init__(self, path = None, mode = "single", serializer = "json"):
+	def __init__(self, path = None, mode = "single", serializer = "msgpack"):
 		if not path:
 			raise DatabaseError('Need path')
 	
