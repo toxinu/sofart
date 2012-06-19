@@ -1,4 +1,7 @@
-import cPickle as pickle
+try:
+	import cPickle as pickle
+except:
+	import pickle
 
 class Backend(object):
 	def __init__(self, path):
