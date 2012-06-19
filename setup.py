@@ -10,17 +10,30 @@ except ImportError:
 	from distutils.core import setup
 
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    sys.exit()
+	os.system('python setup.py sdist upload')
+	sys.exit()
 
 setup(
 	name='sofart',
 	version='0.2',
-	description='Quick and dirty python embedded and non-relationnal database',
+	description='Python embedded and non-relationnal database',
 	long_description=open('README.rst').read(), 
 	license=open("LICENSE").read(),
 	author="Geoffrey Lehée",
 	author_email="geoffrey@lehee.name",
 	packages = ['sofart', 'sofart.serializers'],
-	require = ['msgpack-python']
+	require = ['msgpack-python'],
+	classifiers=(
+		'Development Status :: 4 - Beta',
+		'Intended Audience :: Developers',
+		'Natural Language :: English',
+		'License :: OSI Approved :: BSD License',
+		'Programming Language :: Python',
+		'Programming Language :: Python :: 2.6',
+		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3',
+		'Programming Language :: Python :: 3.0',
+		'Programming Language :: Python :: 3.1',
+		'Programming Language :: Python :: 3.2',
+	)
 )
