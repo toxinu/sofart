@@ -116,6 +116,6 @@ class Collection
     save()            : Save every changes in database file
     close()           : Same as save()
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
-    find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded
+    find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded in a `list`
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
