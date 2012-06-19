@@ -74,11 +74,6 @@ You can easily write your own serializer(backend), have a look at ``backends/jso
 
 Remember that if someone write Ruby or other language driver for sofart, maybe using ``Pickle`` could be difficult...
 
-Todo
-----
-
-- Take a look at ``msgpack`` (`infos <http://jmoiron.net/blog/python-serialization/>`_).
-
 Docs
 ----
 
