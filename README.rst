@@ -65,7 +65,7 @@ Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socket
 	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when database is closed.  
 	In otherwise ``multi`` down data at each request.
 
-But you can have a pretty data control with ``save`` method which down data in file when you call it.
+But you can have a pretty data control with ``sync`` method which down data in file when you call it.
 
 Misc.
 -----
@@ -98,8 +98,8 @@ class Database
     get_collections() : Return database collections list (same as `collections` attribut)
     get(str(name))    : Return `Collection` object
     total_entries()   : Return total database entries
-    save()            : Save every changes in database file
-    close()           : Same as save()
+    sync()            : Save every changes in database file
+    close()           : Same as sync()
 
 class Collection
 ================
@@ -113,8 +113,8 @@ class Collection
     total_entries()   : Return total collection entries
     save(dict(enreg)) : Save entrie into collection
     remove(str(_id))  : Remove entrie from collection
-    save()            : Save every changes in database file
-    close()           : Same as save()
+    sync()            : Save every changes in database file
+    close()           : Same as sync()
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
     find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded in a `list`
 
