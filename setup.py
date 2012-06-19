@@ -15,7 +15,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
 	name='sofart',
-	version='0.1',
+	version='0.2',
 	description='Quick and dirty python embedded and non-relationnal database',
 	long_description=open('README.rst').read(), 
 	license=open("LICENSE").read(),

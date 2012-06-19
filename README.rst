@@ -11,7 +11,7 @@ There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` f
 	Can be use in single (default) and multi user.
 	It means real-time sync or "database connection" sync.
 
-Sofart is compatible with Python2 and 3.
+Sofart is Python 3 ready.
 
 Installation
 ------------
