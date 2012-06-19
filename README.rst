@@ -2,7 +2,7 @@
 Sofart
 ======
 
-Quick and dirty python embedded and non-relationnal database.
+Python embedded and non-relationnal database.
 
 For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
 

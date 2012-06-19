@@ -18,8 +18,8 @@ from sofart import Database
 # Configuration
 #####################################################################################
 
-serializer = 'msgpack'
-#serializer = 'json'
+#serializer = 'msgpack'
+serializer = 'json'
 #serializer = 'pickle'
 
 db_path = './so.fart.%s.db' % serializer

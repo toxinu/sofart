@@ -44,7 +44,7 @@ class Collection(object):
 			tmp = self.entries
 			tmp.append(record)
 			self.update(tmp)
-			self.db.add_id(record_ir)
+			self.db.add_id(record_id)
 			del tmp
 		del record
 
@@ -59,6 +59,8 @@ class Collection(object):
 			self.db.del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
+		if not isinstance(query, dict):
+			raise CollectionError('Query must be dict')
 		if query:
 			for enreg in self.entries:
 				counter = True
@@ -85,6 +87,8 @@ class Collection(object):
 			return self.entries[0]
 
 	def find(self, query={}, nb=50, case_sensitive=False):
+		if not isinstance(query, dict):
+			raise CollectionError('Query must be dict')
 		current_item = 0
 		result = []
 		for enreg in self.entries:
