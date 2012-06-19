@@ -1,6 +1,6 @@
 import msgpack
 
-class Backend(object):
+class Serializer(object):
 	def __init__(self, path):
 		self.path = path
 		self.packer = msgpack.Packer()

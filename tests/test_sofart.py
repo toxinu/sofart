@@ -19,8 +19,8 @@ from sofart import Database
 #####################################################################################
 
 #serializer = 'pickle'
-serializer = 'json'
-#serializer = 'msgpack'
+#serializer = 'json'
+serializer = 'msgpack'
 
 db_path = './so.fart.%s.db' % serializer
 mode = 'single'
@@ -30,9 +30,9 @@ clean = True
 #####################################################################################
 #####################################################################################
 
-_backend = __import__("sofart.backends._%s" % serializer)
-_backend = sys.modules["sofart.backends._%s" % serializer]
-backend = _backend.Backend(db_path)
+_serializer = __import__("sofart.serializers._%s" % serializer)
+_serializer = sys.modules["sofart.serializers._%s" % serializer]
+_serializer = _serializer.Serializer(db_path)
 
 class TestSetup(object):
 	def setUp(self):
@@ -47,7 +47,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		self.assertNotIn('test2', d.collections, msg='Database not empty (drop failure)')
 		d.close()
 
-		_db = backend.load()
+		_db = _serializer.load()
 		self.assertNotIn('test', _db['index']['collections'])
 		self.assertNotIn('test2', _db['index']['collections'])
 		self.assertFalse(len(_db['index']['ids']) > 0, msg='Ids index is not empty')
@@ -57,7 +57,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		d.new_collection('test')
 		self.assertIn('test', d.collections, msg='Collection not created')
 		d.close()
-		_db = backend.load()
+		_db = _serializer.load()
 		self.assertFalse(len(_db['index']['ids']) > 0, msg='Ids index is not empty')
 
 	def test_03_getcollection(self):
@@ -104,7 +104,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		r = c.find_one({"artist": "Jambon"})
 		self.assertFalse(r, msg='Enreg not removed')
 		d.close()
-		_db = backend.load()
+		_db = _serializer.load()
 		self.assertNotIn(r, _db['index']['ids'], msg='Ids not removed in index')
 
 	def test_10_countcollectionenreg(self):

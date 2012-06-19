@@ -19,9 +19,9 @@ class Database(object):
 		self.path = path
 
 		self.serializer = serializer
-		_backend = __import__("sofart.backends._%s" % self.serializer)
-		_backend = sys.modules["sofart.backends._%s" % self.serializer]
-		self.backend = _backend.Backend(self.path)
+		_serializer = __import__("sofart.serializers._%s" % self.serializer)
+		_serializer = sys.modules["sofart.serializers._%s" % self.serializer]
+		self._serializer = _serializer.Serializer(self.path)
 
 		if self.mode == "single":
 			self.initialize()
@@ -35,9 +35,9 @@ class Database(object):
 
 	def initialize(self):
 		if not os.path.exists(self.path):
-			self.backend.init(self.init_schema)
+			self._serializer.init(self.init_schema)
 		try:
-			db = self.backend.load() 
+			db = self._serializer.load() 
 			if not isinstance(db , dict):
 				raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
 			if self.mode == "multi":
@@ -52,7 +52,7 @@ class Database(object):
 			raise DatabaseError('Database update can\'t be empty')
 		try:
 			if self.mode == "multi":
-				self.backend.dump(self.db)
+				self._serializer.dump(self.db)
 			elif self.mode == "single":
 				self.db = new_db
 		except:
@@ -118,7 +118,7 @@ class Database(object):
 		return Collection(collection_name, self.path, self)
 
 	def sync(self):
-		self.backend.dump(self.db)
+		self._serializer.dump(self.db)
 
 	def close(self):
 		self.sync()

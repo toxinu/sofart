@@ -3,7 +3,7 @@ try:
 except:
 	import pickle
 
-class Backend(object):
+class Serializer(object):
 	def __init__(self, path):
 		self.path = path
 

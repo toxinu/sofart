@@ -21,5 +21,6 @@ setup(
 	license=open("LICENSE").read(),
 	author="Geoffrey Lehée",
 	author_email="geoffrey@lehee.name",
-	packages = ['sofart', 'sofart.backends']
+	packages = ['sofart', 'sofart.serializers'],
+	require = ['msgpack-python']
 )

@@ -23,7 +23,7 @@ class Collection(object):
 			if self.db.mode == "multi":
 				tmp = self.db.db
 				tmp[self.name] = new_collection
-				self.db.backend.dump(tmp)
+				self.db._serializer.dump(tmp)
 				del tmp
 			elif self.db.mode == "single":
 				self.db.db[self.name] == new_collection
