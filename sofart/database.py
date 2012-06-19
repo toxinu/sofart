@@ -35,10 +35,7 @@ class Database(object):
 
 	def initialize(self):
 		if not os.path.exists(self.path):
-			try:
-				self.backend.init(self.init_schema)
-			except Exception as err:
-				raise DatabaseError('Seems to be corrupt or not %s object (%s)' % (self.serializer, err))
+			self.backend.init(self.init_schema)
 		try:
 			db = self.backend.load() 
 			if not isinstance(db , dict):
