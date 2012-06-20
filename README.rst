@@ -85,8 +85,8 @@ class Database
 *constructor* ::
 
     Database(str(path), str(mode), str(serializer)) : Path is database file path
-                                                    : Mode is single or multi
-                                                    : Serializer like msgpack, json or pickle
+                                                    : Mode is single or multi (Default: `single`)
+                                                    : Serializer like msgpack, json or pickle (Default: `msgpack`)
 
 *attributs* ::
 

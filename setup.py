@@ -22,7 +22,7 @@ setup(
 	author="Geoffrey Lehée",
 	author_email="geoffrey@lehee.name",
 	packages = ['sofart', 'sofart.serializers'],
-	require = ['msgpack-python'],
+	install_requires = ['msgpack-python'],
 	classifiers=(
 		'Development Status :: 4 - Beta',
 		'Intended Audience :: Developers',
