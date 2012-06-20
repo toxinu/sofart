@@ -15,7 +15,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
 	name='sofart',
-	version='0.2.1',
+	version='0.2.2',
 	description='Python embedded and non-relationnal database',
 	long_description=open('README.rst').read(), 
 	license=open("LICENSE").read(),

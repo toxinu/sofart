@@ -4,6 +4,7 @@
 import uuid
 import os
 import sys
+import datetime
 
 from .exceptions import DatabaseError
 from .collection import Collection
@@ -13,7 +14,9 @@ class Database(object):
 		if not path:
 			raise DatabaseError('Need path')
 	
-		self.init_schema = {"index": {"collections": [], "ids": []}}
+		self.init_schema = {"_infos": {	"creation_date": datetime.datetime.now().isoformat(), 
+										"serializer": serializer,
+										"total_entries": 0}}
 
 		self.mode = mode
 		self.path = path
@@ -28,10 +31,8 @@ class Database(object):
 		elif self.mode == "multi":
 			self.db = self.initialize()
 
-		self.collections = self.get_collections()
-
 	def total_entries(self):
-		return len(self.db['index']['ids'])
+		return self.db['_infos']['total_entries']
 
 	def initialize(self):
 		if not os.path.exists(self.path):
@@ -61,56 +62,50 @@ class Database(object):
 	def add_id(self, new_id):
 		if self.mode == "multi":
 			tmp = self.db
-			tmp['index']['ids'].append(new_id)
+			tmp['_infos']['total_entries'] += 1
 			self.update(tmp)
 		elif self.mode == "single":
-			self.db['index']['ids'].append(new_id)
+			self.db['_infos']['total_entries'] += 1
 
 	def del_id(self, old_id):
 		try:
 			if self.mode == "multi":
 				tmp = self.db
-				tmp['index']['ids'].remove(old_id)
+				tmp['_infos']['total_entries'] -= 1
 				self.update(tmp)
 			elif self.mode == "single":
-				self.db['index']['ids'].remove(old_id)
+				self.db['_infos']['total_entries'] -= 1
 		except:
 			raise DatabaseError('Id is not in database')
 
-	def new_collection(self, collection_name):
-		if not collection_name in self.get_collections():
+	def new_collection(self, name):
+		if not name in self.get_collections():
 			if self.mode == "multi":
 				tmp = self.db
-				tmp[collection_name] = []
-				tmp['index']['collections'].append(collection_name)
+				tmp[name] = []
 				self.update(tmp)
 				del tmp
 			elif self.mode == "single":
-				self.db[collection_name] = []
-				self.db['index']['collections'].append(collection_name)
+				self.db[name] = []
 
-	def drop_collection(self, collection_name):
+	def drop_collection(self, name):
+		if name == "_infos":
+			raise DatabaseError('Can\'t remove \"_infos\" database')
 		try:
 			if self.mode == "multi":
 				tmp = self.db
-				ids = [e['_id'] for e in tmp[collection_name]]
-				del tmp[collection_name]
-				tmp['index']['collections'].remove(str(collection_name))
-				for i in ids:
-					self.del_id(i)
+				tmp['_infos']['total_entries'] -= len(tmp[name])
+				del tmp[name]
 				self.update(tmp)
 				del tmp
 			elif self.mode == "single":
-				ids = [e['_id'] for e in self.db[collection_name]]
-				for i in ids:
-					self.del_id(i)
-				del self.db[collection_name]
-				self.db['index']['collections'].remove(collection_name)
+				self.db['_infos']['total_entries'] -= len(self.db[name])
+				del self.db[name]
 		except KeyError as err:
 			pass
 
 	def get_collections(self):
-		return self.db['index']['collections']	
+		return [c for c in self.db.keys() if c != '_infos']
 
 	def get(self, collection_name):
 		if not collection_name in self.get_collections():

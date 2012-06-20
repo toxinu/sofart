@@ -18,14 +18,15 @@ from sofart import Database
 # Configuration
 #####################################################################################
 
-#serializer = 'msgpack'
-serializer = 'json'
+serializer = 'msgpack'
+#serializer = 'json'
 #serializer = 'pickle'
 
 db_path = './so.fart.%s.db' % serializer
-mode = 'single'
+mode = 'multi'
 
 clean = True
+#clean = False
 
 #####################################################################################
 #####################################################################################
@@ -43,22 +44,22 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.drop_collection('test')
 		d.drop_collection('test2')
-		self.assertNotIn('test', d.collections, msg='Database not empty (drop failure)')
-		self.assertNotIn('test2', d.collections, msg='Database not empty (drop failure)')
+		self.assertNotIn('test', d.get_collections(), msg='Database not empty (drop failure)')
+		self.assertNotIn('test2', d.get_collections(), msg='Database not empty (drop failure)')
 		d.close()
 
 		_db = _serializer.load()
-		self.assertNotIn('test', _db['index']['collections'])
-		self.assertNotIn('test2', _db['index']['collections'])
-		self.assertFalse(len(_db['index']['ids']) > 0, msg='Ids index is not empty')
+		self.assertNotIn('test', _db)
+		self.assertNotIn('test2', _db)
+		self.assertFalse(_db['_infos']['total_entries'] > 0, msg='Ids index is not empty')
 
 	def test_02_new_collection(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.new_collection('test')
-		self.assertIn('test', d.collections, msg='Collection not created')
+		self.assertIn('test', d.get_collections(), msg='Collection not created')
 		d.close()
 		_db = _serializer.load()
-		self.assertFalse(len(_db['index']['ids']) > 0, msg='Ids index is not empty')
+		self.assertFalse(_db['_infos']['total_entries'] > 0, msg='Ids index is not empty')
 
 	def test_03_getcollection(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
@@ -106,7 +107,6 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		self.assertFalse(r, msg='Enreg not removed')
 		d.close()
 		_db = _serializer.load()
-		self.assertNotIn(r, _db['index']['ids'], msg='Ids not removed in index')
 
 	def test_10_countcollectionenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
