@@ -191,14 +191,28 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c = d.get('test')
 		c.save({"test017": [1,2,5]})
 		r = c.find({'test017': {'$in': [1,6,9]}})
-		self.assertTrue(r, msg='in operand failed')
+		self.assertTrue(r, msg='In operand failed')
 		r = c.find({'test017': {'$in': [1,2,9]}})
 		self.assertTrue(r, msg='in operand failed')
 		r = c.find({'test017': {'$in': [6,120,9]}})
-		self.assertFalse(r, msg='in operand failed')
+		self.assertFalse(r, msg='In operand failed')
 		c.save({"test017": 1})
 		r = c.find({'test017': {'$in': [1,6,9]}})
-		self.assertTrue(r, msg='in operand failed')
+		self.assertTrue(r, msg='In operand failed')
+
+	def test018_ninoperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		c.save({"test017": [1,2,5]})
+		r = c.find({'test017': {'$nin': [1,6,9]}})
+		self.assertFalse(r, msg='Nin operand failed')
+		r = c.find({'test017': {'$nin': [1,2,9]}})
+		self.assertFalse(r, msg='Nin operand failed')
+		r = c.find({'test017': {'$nin': [6,120,9]}})
+		self.assertTrue(r, msg='Nin operand failed')
+		c.save({"test017": 1})
+		r = c.find({'test017': {'$nin': [1,6,9]}})
+		self.assertFalse(r, msg='Nin operand failed')
 
 
 	def test099_clean(self):

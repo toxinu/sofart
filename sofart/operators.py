@@ -4,7 +4,7 @@ from .exceptions import QueryError
 
 _01 = ['gt','lt','gte','lte']
 _02 = ['all','exists','mod','ne']
-_03 = ['in']
+_03 = ['in','nin']
 
 _ops = _01 + _02 + _03
 
@@ -81,6 +81,19 @@ def computequery(value, query):
 					break
 			if not _i:
 				return False
+		# $nin
+		elif _key == "nin":
+			_i = True
+			if not isinstance(value, list):
+				value = [value]
+
+			for i in value:
+				if i in query[key]:
+					_i = False
+					break
+			if not _i:
+				return False
+
 
 	# Finally
 	if counter:
