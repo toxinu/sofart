@@ -3,10 +3,23 @@
 
 import uuid
 import copy
+import sys
 
 from sofart.operators import isadvancedquery
 from sofart.operators import computequery
 from .exceptions import CollectionError
+
+if sys.version < '3':
+	import codecs
+	def isstring(x):
+		if isinstance(x, str) or isinstance(x, unicode):
+			return True
+		return False
+else:
+	def isstring(x):
+		if isinstance(x, str):
+			return True
+		return False
 
 class Collection(object):
 	def __init__(self, name, path, db):
@@ -61,7 +74,11 @@ class Collection(object):
 			self.db.del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
-		return self.find(query=query, nb=1, case_sensitive=case_sensitive)[0]
+		r = self.find(query=query, nb=1, case_sensitive=case_sensitive)
+		if not r:
+			return []
+		else:
+			return r[0]
 
 	def find(self, query={}, nb=50, case_sensitive=False):
 		if not isinstance(query, dict):
@@ -72,13 +89,13 @@ class Collection(object):
 			if current_item >= nb:
 				break
 			counter = True
-			for key,value in query.items():
-				if enreg.get(key, False):
-					if isadvancedquery(enreg[key], value):
-						if not computequery(enreg[key], value):
-							counter = False
-							break
-					elif isinstance(enreg[key], str) or isinstance(enreg[key], unicode):
+			for key, value in query.items():
+				if isadvancedquery(enreg.get(key, None), value):
+					if not computequery(enreg.get(key, None), value):
+						counter = False
+						break
+				elif enreg.get(key, False):
+					if isstring(enreg[key]):
 						if not case_sensitive:
 							if not enreg[key].lower() == value.lower():
 								counter = False

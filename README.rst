@@ -122,7 +122,19 @@ class Collection
 Query
 =====
 
-At this moment just ``<, <=, >, >=`` are available, this is a example: ::
+At this moment just following operands are available:
+
+- ``<``
+- ``<=``
+- ``>``
+- ``>=``
+- ``all``
+- ``exists``
+- ``mod``
+- ``ne``
+- ``in``
+
+This is an example: ::
 
 	>>> c.save({"value": 2})
 	>>> c.find({"value" : { "$gt": 3 }})

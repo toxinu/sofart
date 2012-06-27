@@ -132,6 +132,75 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c.save(post2)
 		self.assertEqual(d.total_entries(), 4, msg='Data lose (%s)' % d.total_entries())
 
+	def test012_basicoperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		c.save({'value': 2, 'value2': 150})
+		r = c.find_one({'value': {'$gt': 1, '$lte': 2 }})
+		self.assertTrue(r, msg='BasicOperand failed')
+		r = c.find_one({'value': {'$gt': 1, '$lte': 2 },
+						'value2':{'$gte': 150, '$lt': 2000 }})
+		self.assertTrue(r, msg='BasicOperand failed')
+		r = c.find_one({'value': {'$gt': 3, '$lte': 2 },
+						'value2':{'$gte': 150, '$lt': 2000 }})
+		self.assertFalse(r, msg='BasicOperand failed')
+
+	def test013_alloperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		c.save({'test013': [1,2,3]})
+		r = c.find_one({'test013': { "$all": [2,3,4] }})
+		self.assertFalse(r, msg='AllOperand failed')
+		r = c.find_one({'test013': { "$all": [2,3] }})
+		self.assertTrue(r, msg='AllOperand failed')
+
+	def test014_existsoperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		r = c.find({'test013': {"$exists": True }})
+		self.assertTrue(r, msg='ExistsOperand failed')
+		r = c.find({'test013': {"$exists": False }})
+		self.assertTrue(r, msg='ExistsOperand failed')
+		r = c.find({'test080123': {"$exists": True }})
+		self.assertFalse(r, msg='ExistsOperand failed')
+		r = c.find({'test080123': {"$exists": False }})
+		self.assertTrue(r, msg='ExistsOperand failed')
+		r = c.find_one({'test013': { "$all": [2,3,4], "$exists": False }})
+		self.assertFalse(r, msg='ExistsOperand failed')
+
+	def test015_modulooperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		r = c.find({'value': {"$mod": [2, 0]}})
+		self.assertTrue(r, msg='Modulo operand failed')
+		r = c.find({'value2': {"$mod": [60, 30]}})
+		self.assertTrue(r, msg='Modulo operand failed')
+		r = c.find({'value2': {"$mod": [60, 25]}})
+		self.assertFalse(r, msg='Modulo operand failed')
+		
+	def test016_neoperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		r = c.find({'value': {"$ne": 2}})
+		self.assertFalse(r, msg='Modulo operand failed')
+		r = c.find({'value': {"$ne": 3}})
+		self.assertTrue(r, msg='Modulo operand failed')
+
+	def test017_inoperand(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		c = d.get('test')
+		c.save({"test017": [1,2,5]})
+		r = c.find({'test017': {'$in': [1,6,9]}})
+		self.assertTrue(r, msg='in operand failed')
+		r = c.find({'test017': {'$in': [1,2,9]}})
+		self.assertTrue(r, msg='in operand failed')
+		r = c.find({'test017': {'$in': [6,120,9]}})
+		self.assertFalse(r, msg='in operand failed')
+		c.save({"test017": 1})
+		r = c.find({'test017': {'$in': [1,6,9]}})
+		self.assertTrue(r, msg='in operand failed')
+
+
 	def test099_clean(self):
 		if clean:
 			os.remove(db_path)
