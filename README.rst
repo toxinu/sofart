@@ -137,17 +137,19 @@ At this moment just following operands are available:
 This is an example: ::
 
 	>>> c.save({"value": 2})
-	>>> c.find({"value" : { "$gt": 3 }})
-	[]
+	>>> c.find({"value": {"$exists": True}})
+	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
+	>>> c.find({"value": {"$in": [2, 3, 67]}})
+	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
 	>>> c.find({"value" : { "$gt": 1 }})
 	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
-	>>> c.find({"value" : { "$gt": 2 }})
-	[]
 	>>> c.find({"value" : { "$gte": 2 }})
 	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
 	>>> c.find({"value" : { "$gte": 2, "$lt" : 1 }})
 	[]
-	>>> c.find({"value" : { "$gte": 2, "$lt" : 3 }})
-	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
+	>>> c.find({"value": {"$mod": [2, 0]}})
+	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
+
+More informations `here` <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-ConditionalOperators>`_.
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
