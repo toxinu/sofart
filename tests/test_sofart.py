@@ -40,7 +40,7 @@ class TestSetup(object):
 		pass
 
 class EmbTestSuite(TestSetup, unittest.TestCase):
-	def test_01_newdb(self):
+	def test001_newdb(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.drop_collection('test')
 		d.drop_collection('test2')
@@ -53,7 +53,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		self.assertNotIn('test2', _db)
 		self.assertFalse(_db['_infos']['total_entries'] > 0, msg='Ids index is not empty')
 
-	def test_02_new_collection(self):
+	def test002_new_collection(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.new_collection('test')
 		self.assertIn('test', d.get_collections(), msg='Collection not created')
@@ -61,11 +61,11 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		_db = _serializer.load()
 		self.assertFalse(_db['_infos']['total_entries'] > 0, msg='Ids index is not empty')
 
-	def test_03_getcollection(self):
+	def test003_getcollection(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 
-	def test_04_addenreg(self):
+	def test004_addenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		post = { 
@@ -73,32 +73,32 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 			"music": "I love jambon"}	
 		c.save(post)
 
-	def test_05_listenreg(self):
+	def test005_listenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		r = c.find_one()
 		self.assertTrue(r, msg='Enreg not found')
 	
-	def test_06_listnoenreg(self):
+	def test006_listnoenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		r = c.find_one({"artist": "Jambon22"})
 		self.assertFalse(r, msg='Enreg found')
 
-	def test_07_nosensitive(self):
+	def test007_nosensitive(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		r = c.find_one({"artist": "JambON"}, case_sensitive=False)
 		a = c.find()
 		self.assertTrue(r, msg='Non-sensitive failed (%s)' % r)
 
-	def test_08_sensitive(self):
+	def test008_sensitive(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		r = c.find_one({"artist": "JamBOn"}, case_sensitive=True)
 		self.assertFalse(r, msg='Sensitive failed')
 
-	def test_09_removeenreg(self):
+	def test009_removeenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		r = c.find_one({"artist": "Jambon"})['_id']
@@ -108,7 +108,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		d.close()
 		_db = _serializer.load()
 
-	def test_10_countcollectionenreg(self):
+	def test010_countcollectionenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		post = { 
@@ -118,7 +118,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c.save(post)
 		self.assertEqual(c.total_entries(), 2, msg='Data lose (%s)' % c.total_entries())
 
-	def test_11_countdbenreg(self):
+	def test011_countdbenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.new_collection('test2')
 		c = d.get('test2')
@@ -132,7 +132,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c.save(post2)
 		self.assertEqual(d.total_entries(), 4, msg='Data lose (%s)' % d.total_entries())
 
-	def test_99_clean(self):
+	def test099_clean(self):
 		if clean:
 			os.remove(db_path)
 

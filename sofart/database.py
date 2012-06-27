@@ -120,3 +120,9 @@ class Database(object):
 
 	def __del__(self):
 		self.sync()
+
+	def __unicode__(self):
+		return self.path
+
+	def __str__(self):
+		return self.path

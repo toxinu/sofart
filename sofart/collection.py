@@ -4,6 +4,8 @@
 import uuid
 import copy
 
+from sofart.operators import isadvancedquery
+from sofart.operators import computequery
 from .exceptions import CollectionError
 
 class Collection(object):
@@ -59,32 +61,7 @@ class Collection(object):
 			self.db.del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
-		if not isinstance(query, dict):
-			raise CollectionError('Query must be dict')
-		if query:
-			for enreg in self.entries:
-				counter = True
-				for key,value in query.items():
-					if enreg.get(key, False):
-						if isinstance(enreg[key], str) or isinstance(enreg[key], unicode):
-							if not case_sensitive:
-								if not enreg[key].lower() == value.lower():
-									counter = False
-									break
-							else:
-								if not enreg[key] == value:
-									counter = False
-									break
-						else:
-							if not enreg[key] == value:
-								counter = False
-								break
-					else:
-						counter = False
-				if counter:
-					return enreg
-		else:
-			return self.entries[0]
+		return self.find(query=query, nb=1, case_sensitive=case_sensitive)[0]
 
 	def find(self, query={}, nb=50, case_sensitive=False):
 		if not isinstance(query, dict):
@@ -97,7 +74,11 @@ class Collection(object):
 			counter = True
 			for key,value in query.items():
 				if enreg.get(key, False):
-					if isinstance(enreg[key], str):
+					if isadvancedquery(enreg[key], value):
+						if not computequery(enreg[key], value):
+							counter = False
+							break
+					elif isinstance(enreg[key], str) or isinstance(enreg[key], unicode):
 						if not case_sensitive:
 							if not enreg[key].lower() == value.lower():
 								counter = False
@@ -125,3 +106,9 @@ class Collection(object):
 
 	def __del__(self):
 		self.sync()
+
+	def __unicode__(self):
+		return self.name
+
+	def __str__(self):
+		return self.name

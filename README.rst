@@ -31,7 +31,7 @@ Create Database and a collection: ::
 
 	>>> db = Database('/tmp/so.fart')
 	>>> db.new_collection('test_collection')
-	>>> db.collections
+	>>> db.get_collections()
 	['test_collection']
 
 Play with collection: ::
@@ -118,5 +118,24 @@ class Collection
     close()           : Same as sync()
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
     find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded in a `list`
+
+Query
+=====
+
+At this moment just ``<, <=, >, >=`` are available, this is a example: ::
+
+	>>> c.save({"value": 2})
+	>>> c.find({"value" : { "$gt": 3 }})
+	[]
+	>>> c.find({"value" : { "$gt": 1 }})
+	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
+	>>> c.find({"value" : { "$gt": 2 }})
+	[]
+	>>> c.find({"value" : { "$gte": 2 }})
+	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
+	>>> c.find({"value" : { "$gte": 2, "$lt" : 1 }})
+	[]
+	>>> c.find({"value" : { "$gte": 2, "$lt" : 3 }})
+	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
