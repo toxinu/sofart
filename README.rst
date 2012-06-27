@@ -133,6 +133,7 @@ At this moment just following operands are available:
 - ``mod``
 - ``ne``
 - ``in``
+- ``nin``
 
 This is an example: ::
 
