@@ -120,7 +120,7 @@ class Collection
     find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded in a `list`
 
 Query
-=====
+-----
 
 At this moment just following operands are available:
 
@@ -143,6 +143,9 @@ This is an example: ::
 	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
 	>>> c.find({"value" : { "$gt": 1 }})
 	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
+
+And another: ::
+
 	>>> c.find({"value" : { "$gte": 2 }})
 	[{'_id': '42567296-7d78-43b7-a4e0-50447b80eca8', 'value': 2}]
 	>>> c.find({"value" : { "$gte": 2, "$lt" : 1 }})
@@ -150,6 +153,6 @@ This is an example: ::
 	>>> c.find({"value": {"$mod": [2, 0]}})
 	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
 
-More informations `here` <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-ConditionalOperators>`_.
+More informations `here <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-ConditionalOperators>`_.
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
