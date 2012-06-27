@@ -9,11 +9,9 @@ import os
 mode = "single"
 serializer = "msgpack"
 db_path = './sofart-test.db'
-nb_collection = 1
-nb_entrie_per_collection = 600
-entrie = {	"Jambon": "Godness", 
-			"Haricot": "I saw for the first time the earth's shape. I could easily see the shores of continents, islands, great rivers, folds of the terrain, large bodies of water. The horizon is dark blue, smoothly turning to black. . . the feelings which filled me I can express with one word—joy.",
-			"It's just mind-blowingly awesome. I apologize, and I wish I was more articulate, but it's hard to be articulate when your mind's blown—but in a very good way.": "123123_Dzajkdjazjdazhdhjazjkdhajzk"}
+nb_collection = 2
+nb_entrie_per_collection = 1000
+entrie = {"sada123123123": True, "It's just mind-blowingly awesome. I apologize, and I wish I was more articulate, but it's hard to be articulate when your mind's blown\xe2\x80\x94but in a very good way.": '123123_Dzajkdjazjdazhdhjazjkdhajzk', 'Haricot': "I saw for the first time the earth's shape. I could easily see the shores of continents, islands, great rivers, folds of the terrain, large bodies of water. The horizon is dark blue, smoothly turning to black. . . the feelings which filled me I can express with one word\xe2\x80\x94joy.", 'Jambon': 'Godness'}
 
 def populate_collection(db, collection, entrie):
 	c = db.get(collection)
@@ -25,7 +23,7 @@ def worker(mode, db_path, serializer):
 	for i in range(nb_collection):
 		db.new_collection(str(uuid.uuid4()))
 
-	for i in db.collections:
+	for i in db.get_collections():
 		populate_collection(db, i, entrie)
 
 if __name__=="__main__":
