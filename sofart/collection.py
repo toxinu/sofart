@@ -28,7 +28,7 @@ class Collection(object):
 		self.entries = db.db[self.name]
 		self.db = db
 
-	def total_entries(self):
+	def count(self):
 		return len(self.entries)
 
 	def update(self, new_collection):
@@ -74,17 +74,16 @@ class Collection(object):
 			self.db.del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
-		r = self.find(query=query, nb=1, case_sensitive=case_sensitive)
-		if not r:
-			return []
-		else:
-			return r[0]
+		for r in self.find(query=query, nb=1, case_sensitive=case_sensitive):
+			if not r:
+				return None
+			else:
+				return r
 
 	def find(self, query={}, nb=50, case_sensitive=False):
 		if not isinstance(query, dict):
 			raise CollectionError('Query must be dict')
 		current_item = 0
-		result = []
 		for enreg in self.entries:
 			if current_item >= nb:
 				break
@@ -112,8 +111,7 @@ class Collection(object):
 					counter = False
 			if counter:
 				current_item += 1
-				result.append(enreg)
-		return result
+				yield enreg
 
 	def sync(self):
 		self.db.sync()

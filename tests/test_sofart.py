@@ -116,7 +116,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 			"music": "I love jambon"}	
 		c.save(post)
 		c.save(post)
-		self.assertEqual(c.total_entries(), 2, msg='Data lose (%s)' % c.total_entries())
+		self.assertEqual(c.count(), 2, msg='Data lose (%s)' % c.count())
 
 	def test011_countdbenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
@@ -130,7 +130,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 			"music": "I love jambon2"}	
 		c.save(post)
 		c.save(post2)
-		self.assertEqual(d.total_entries(), 4, msg='Data lose (%s)' % d.total_entries())
+		self.assertEqual(d.count(), 4, msg='Data lose (%s)' % d.count())
 
 	def test012_basicoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
@@ -157,13 +157,13 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test014_existsoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
-		r = c.find({'test013': {"$exists": True }})
+		r = [i for i in c.find({'test013': {"$exists": True }})]
 		self.assertTrue(r, msg='ExistsOperand failed')
-		r = c.find({'test013': {"$exists": False }})
+		r = [i for i in c.find({'test013': {"$exists": False }})]
 		self.assertTrue(r, msg='ExistsOperand failed')
-		r = c.find({'test080123': {"$exists": True }})
+		r = [i for i in c.find({'test080123': {"$exists": True }})]
 		self.assertFalse(r, msg='ExistsOperand failed')
-		r = c.find({'test080123': {"$exists": False }})
+		r = [i for i in c.find({'test080123': {"$exists": False }})]
 		self.assertTrue(r, msg='ExistsOperand failed')
 		r = c.find_one({'test013': { "$all": [2,3,4], "$exists": False }})
 		self.assertFalse(r, msg='ExistsOperand failed')
@@ -171,47 +171,47 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test015_modulooperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
-		r = c.find({'value': {"$mod": [2, 0]}})
+		r = [i for i in c.find({'value': {"$mod": [2, 0]}})]
 		self.assertTrue(r, msg='Modulo operand failed')
-		r = c.find({'value2': {"$mod": [60, 30]}})
+		r = [i for i in c.find({'value2': {"$mod": [60, 30]}})]
 		self.assertTrue(r, msg='Modulo operand failed')
-		r = c.find({'value2': {"$mod": [60, 25]}})
+		r = [i for i in c.find({'value2': {"$mod": [60, 25]}})]
 		self.assertFalse(r, msg='Modulo operand failed')
 		
 	def test016_neoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
-		r = c.find({'value': {"$ne": 2}})
+		r = [i for i in c.find({'value': {"$ne": 2}})]
 		self.assertFalse(r, msg='Modulo operand failed')
-		r = c.find({'value': {"$ne": 3}})
+		r = [i for i in c.find({'value': {"$ne": 3}})]
 		self.assertTrue(r, msg='Modulo operand failed')
 
 	def test017_inoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		c.save({"test017": [1,2,5]})
-		r = c.find({'test017': {'$in': [1,6,9]}})
+		r = [i for i in c.find({'test017': {'$in': [1,6,9]}})]
 		self.assertTrue(r, msg='In operand failed')
-		r = c.find({'test017': {'$in': [1,2,9]}})
+		r = [i for i in c.find({'test017': {'$in': [1,2,9]}})]
 		self.assertTrue(r, msg='in operand failed')
-		r = c.find({'test017': {'$in': [6,120,9]}})
+		r = [i for i in c.find({'test017': {'$in': [6,120,9]}})]
 		self.assertFalse(r, msg='In operand failed')
 		c.save({"test017": 1})
-		r = c.find({'test017': {'$in': [1,6,9]}})
+		r = [i for i in c.find({'test017': {'$in': [1,6,9]}})]
 		self.assertTrue(r, msg='In operand failed')
 
 	def test018_ninoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.get('test')
 		c.save({"test017": [1,2,5]})
-		r = c.find({'test017': {'$nin': [1,6,9]}})
+		r = [i for i in c.find({'test017': {'$nin': [1,6,9]}})]
 		self.assertFalse(r, msg='Nin operand failed')
-		r = c.find({'test017': {'$nin': [1,2,9]}})
+		r = [i for i in c.find({'test017': {'$nin': [1,2,9]}})]
 		self.assertFalse(r, msg='Nin operand failed')
-		r = c.find({'test017': {'$nin': [6,120,9]}})
+		r = [i for i in c.find({'test017': {'$nin': [6,120,9]}})]
 		self.assertTrue(r, msg='Nin operand failed')
 		c.save({"test017": 1})
-		r = c.find({'test017': {'$nin': [1,6,9]}})
+		r = [i for i in c.find({'test017': {'$nin': [1,6,9]}})]
 		self.assertFalse(r, msg='Nin operand failed')
 
 

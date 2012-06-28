@@ -31,7 +31,7 @@ class Database(object):
 		elif self.mode == "multi":
 			self.db = self.initialize()
 
-	def total_entries(self):
+	def count(self):
 		return self.db['_infos']['total_entries']
 
 	def initialize(self):
