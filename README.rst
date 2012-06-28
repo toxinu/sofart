@@ -40,7 +40,9 @@ Play with collection: ::
 	>>> post = {    "artist": "Jambon",
 	...             "track": "I love my jambon"}
 	>>> c.save(post)
-	>>> c.find_one()
+	>>> for i in c.find_one():
+	...     print(i)
+	...
 	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}$
 	>>> c.remove('b2d6bf60-6c11-4e26-9357-efb28056e60d')
 	>>> c.find_one()
@@ -98,7 +100,7 @@ class Database
     drop_collection(str(name)) : Drop collection
     get_collections() : Return database collections list (same as `collections` attribut)
     get(str(name))    : Return `Collection` object
-    total_entries()   : Return total database entries
+    count()           : Return total database entries
     sync()            : Save every changes in database file
     close()           : Same as sync()
 
@@ -111,13 +113,13 @@ class Collection
 
 *methods* ::
 
-    total_entries()   : Return total collection entries
+    count()           : Return total collection entries
     save(dict(enreg)) : Save entrie into collection
     remove(str(_id))  : Remove entrie from collection
     sync()            : Save every changes in database file
     close()           : Same as sync()
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
-    find(dict(query), bool(case_sensitive), int(nb)) : Return `nb` result founded in a `list`
+    find(dict(query), bool(case_sensitive), int(nb)) : Iterator which return `nb` result founded
 
 Query
 -----
@@ -154,6 +156,6 @@ And another: ::
 	>>> c.find({"value": {"$mod": [2, 0]}})
 	[{'_id': '47e53aea-85b4-434b-8961-40e89c877b41', 'value': 2}]
 
-More informations `here <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-ConditionalOperators>`_.
+More informations `here <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries>`_.
 
 See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
