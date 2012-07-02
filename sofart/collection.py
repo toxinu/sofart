@@ -129,4 +129,4 @@ class Collection(object):
 		self.db.sync()
 
 	def push_my_banane_on_the_mountain(self):
-		self.save({'My Mustach /*-*/ __': '__ Hard Rock Hallejuija ~o~'})
+		self.save({'My Mustach /*-*/ __': '__ Hard Rock Hallejuija ~o~ 日本国'})
