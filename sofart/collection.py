@@ -31,6 +31,18 @@ class Collection(object):
 	def count(self):
 		return len(self.entries)
 
+	def rename(self, name):
+		if name in self.db.get_collections():
+			raise CollectionError('Collection name already taken')
+		if self.db.mode == "multi":
+			tmp = self.db.db
+			tmp[name] = tmp.pop(self.name)
+			self.db.update(tmp)
+			del tmp	
+		elif self.db.mode == "single":
+			self.db.db[name] = self.db.db.pop(self.name)
+		self.name = name
+
 	def update(self, new_collection):
 		if not isinstance(new_collection, list):
 			raise CollectionError('Collection update can\'t be empty')
@@ -116,14 +128,5 @@ class Collection(object):
 	def sync(self):
 		self.db.sync()
 
-	def close(self):
-		self.sync()
-
-	def __del__(self):
-		self.sync()
-
-	def __unicode__(self):
-		return self.name
-
-	def __str__(self):
-		return self.name
+	def push_my_banane_on_the_mountain(self):
+		self.save({'My Mustach /*-*/ __': '__ Hard Rock Hallejuija ~o~'})

@@ -46,7 +46,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		d.drop_collection('test2')
 		self.assertNotIn('test', d.get_collections(), msg='Database not empty (drop failure)')
 		self.assertNotIn('test2', d.get_collections(), msg='Database not empty (drop failure)')
-		d.close()
+		d.sync()
 
 		_db = _serializer.load()
 		self.assertNotIn('test', _db)
@@ -57,7 +57,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		d.new_collection('test')
 		self.assertIn('test', d.get_collections(), msg='Collection not created')
-		d.close()
+		d.sync()
 		_db = _serializer.load()
 		self.assertFalse(_db['_infos']['total_entries'] > 0, msg='Ids index is not empty')
 
@@ -105,7 +105,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c.remove(r)
 		r = c.find_one({"artist": "Jambon"})
 		self.assertFalse(r, msg='Enreg not removed')
-		d.close()
+		d.sync()
 		_db = _serializer.load()
 
 	def test010_countcollectionenreg(self):
@@ -214,6 +214,23 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		r = [i for i in c.find({'test017': {'$nin': [1,6,9]}})]
 		self.assertFalse(r, msg='Nin operand failed')
 
+	def test019_renameviacollection(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		d.new_collection('test19')
+		c = d.get('test19')
+		c.save({'test123': 123})
+		c.rename('test19_')
+		r = c.find_one({'test123': 123})
+		self.assertTrue(r, msg='Save lost after rename')
+		self.assertEqual(c.name, 'test19_', msg='Name not valid')
+
+	def test020_renameviadatabase(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		d.rename('test19_', 'test19')
+		c = d.get('test19')
+		r = c.find_one({'test123': 123})
+		self.assertTrue(r, msg='Save lost after rename')
+		self.assertEqual(c.name, 'test19', msg='Name not valid')
 
 	def test099_clean(self):
 		if clean:

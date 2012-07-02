@@ -9,7 +9,7 @@ For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_
 There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` for storage.
 
 	Can be use in single (default) and multi user.
-	It means real-time sync or "database connection" sync.
+	It means "data in ram" or "data in file".
 
 Sofart is Python 3 ready.
 
@@ -66,7 +66,7 @@ Performances
 
 Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
 
-	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when database is closed.  
+	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
 	In otherwise ``multi`` down data at each request.
 
 But you can have a pretty data control with ``sync`` method which down data in file when you call it.
@@ -76,7 +76,7 @@ Misc.
 
 You can easily write your own serializer, have a look at ``serializers/_msgpack.py`` or ``_json.py`` file.
 
-Remember that if someone write Ruby or other language driver for sofart, maybe using ``Pickle`` could be difficult...
+Remember that if someone write Ruby or other language driver for sofart, maybe using ``msgpack`` could be a good idea.
 
 Docs
 ----
@@ -96,13 +96,13 @@ class Database
 
 *methods* ::
 
-    new_collection(str(name))  : Create new collection
-    drop_collection(str(name)) : Drop collection
+    new_collection(str(name))        : Create new collection
+    drop_collection(str(name))       : Drop collection
+    rename(str(name), str(new_name)) : Rename collection `name` to `new_name`
     get_collections() : Return database collections list (same as `collections` attribut)
     get(str(name))    : Return `Collection` object
     count()           : Return total database entries
     sync()            : Save every changes in database file
-    close()           : Same as sync()
 
 class Collection
 ================
@@ -117,7 +117,7 @@ class Collection
     save(dict(enreg)) : Save entrie into collection
     remove(str(_id))  : Remove entrie from collection
     sync()            : Save every changes in database file
-    close()           : Same as sync()
+    rename(str(name)) : Rename collection to `name`
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
     find(dict(query), bool(case_sensitive), int(nb)) : Iterator which return `nb` result founded
 

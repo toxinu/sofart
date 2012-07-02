@@ -34,6 +34,20 @@ class Database(object):
 	def count(self):
 		return self.db['_infos']['total_entries']
 
+	def rename(self, old_name, new_name):
+		if not old_name in self.get_collections():
+			raise DatabaseError('Collection not exist')
+		if new_name in self.get_collections():
+			raise DatabaseError('Collectio name already taken')
+		
+		if self.mode == "multi":
+			tmp = self.db
+			tmp[new_name] = tmp.pop(old_name)
+			self.update(tmp)
+			del tmp
+		elif self.mode == "single":
+			self.db[new_name] = self.db.pop(old_name)
+
 	def initialize(self):
 		if not os.path.exists(self.path):
 			self._serializer.init(self.init_schema)
@@ -114,15 +128,3 @@ class Database(object):
 
 	def sync(self):
 		self._serializer.dump(self.db)
-
-	def close(self):
-		self.sync()
-
-	def __del__(self):
-		self.sync()
-
-	def __unicode__(self):
-		return self.path
-
-	def __str__(self):
-		return self.path
