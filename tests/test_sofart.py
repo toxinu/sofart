@@ -232,6 +232,16 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		self.assertTrue(r, msg='Save lost after rename')
 		self.assertEqual(c.name, 'test19', msg='Name not valid')
 
+	def test021_drop(self):
+		d = Database(db_path, mode=mode, serializer=serializer)
+		d.new_collection('test021')
+		c = d.get('test021')
+		c.drop()
+		self.assertFalse('test021' in d.get_collections(), msg='Nin operand failed')
+		d.new_collection('test021')
+		d.drop_collection('test021')
+		self.assertFalse('test021' in d.get_collections(), msg='Nin operand failed')
+
 	def test099_clean(self):
 		if clean:
 			os.remove(db_path)

@@ -113,6 +113,7 @@ class Collection
 
 *methods* ::
 
+    drop()            : Drop collection
     count()           : Return total collection entries
     save(dict(enreg)) : Save entrie into collection
     remove(str(_id))  : Remove entrie from collection

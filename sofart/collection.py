@@ -125,6 +125,9 @@ class Collection(object):
 				current_item += 1
 				yield enreg
 
+	def drop(self):
+		self.db.drop_collection(self.name)
+
 	def sync(self):
 		self.db.sync()
 
