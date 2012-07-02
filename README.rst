@@ -2,16 +2,15 @@
 Sofart
 ======
 
-Python embedded and non-relationnal database.
+Python in-memory embedded and non-relationnal database.
 
 For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
 
 There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` for storage.
 
-	Can be use in single (default) and multi user.
-	It means "data in ram" or "data in file".
+Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage. Perfomances are so bad.
 
-Sofart is Python 3 ready.
+	Sofart is Python 3 ready.
 
 Installation
 ------------
@@ -64,9 +63,9 @@ And there is a populate script into ``tests/populate.py``.
 Performances
 ------------
 
-Performances are certainly ridiculous, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
+Performances are certainly ridiculous for ``multi``, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
 
-	Single is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
+	Single(in-memory) is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
 	In otherwise ``multi`` down data at each request.
 
 But you can have a pretty data control with ``sync`` method which down data in file when you call it.

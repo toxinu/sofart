@@ -16,7 +16,7 @@ if sys.argv[-1] == 'publish':
 setup(
 	name='sofart',
 	version='0.2.5',
-	description='Python embedded and non-relationnal database',
+	description='Python in-memory embedded and non-relationnal database',
 	long_description=open('README.rst').read(), 
 	license=open("LICENSE").read(),
 	author="Geoffrey Lehée",
