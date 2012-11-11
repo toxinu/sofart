@@ -29,13 +29,13 @@ Easy use: ::
 Create Database and a collection: ::
 
 	>>> db = Database('/tmp/so.fart')
-	>>> db.new_collection('test_collection')
-	>>> db.get_collections()
+	>>> db.create_collection('test_collection')
+	>>> db.collection_names()
 	['test_collection']
 
 Play with collection: ::
 
-	>>> c = db.get('test_collection')
+	>>> c = db.test_collection
 	>>> post = {    "artist": "Jambon",
 	...             "track": "I love my jambon"}
 	>>> c.save(post)
@@ -95,13 +95,19 @@ class Database
 
 *methods* ::
 
-    new_collection(str(name))        : Create new collection
+    create_collection(str(name))     : Create new collection
     drop_collection(str(name))       : Drop collection
     rename(str(name), str(new_name)) : Rename collection `name` to `new_name`
-    get_collections() : Return database collections list (same as `collections` attribut)
-    get(str(name))    : Return `Collection` object
-    count()           : Return total database entries
-    sync()            : Save every changes in database file
+    collection_names() : Return database collections list (same as `collections` attribut)
+    count()            : Return total database entries
+    sync()             : Save every changes in database file
+
+Retrieve collection with the followings methods:
+
+:: 
+
+    c = db.my_collection
+    c = db['my_collection']
 
 class Collection
 ================
