@@ -63,8 +63,6 @@ And there is a populate script into ``tests/populate.py``.
 Performances
 ------------
 
-Performances are certainly ridiculous for ``multi``, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
-
 	Single(in-memory) is highly faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
 	In otherwise ``multi`` down data at each request.
 
