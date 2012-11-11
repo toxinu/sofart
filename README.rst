@@ -2,13 +2,13 @@
 Sofart
 ======
 
-Python in-memory embedded and non-relationnal database.
+Python in-memory embedded and non-relational database.
 
-For production and test, heavly inspired by `Mongodb <http://www.mongodb.org/>`_.
+For development and test, heavily inspired by `Mongodb <http://www.mongodb.org/>`_.
 
 There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` for storage.
 
-Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage. Perfomances are so bad.
+Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage. Performances are so bad.
 
 	Sofart is Python 3 ready.
 
@@ -65,7 +65,7 @@ Performances
 
 Performances are certainly ridiculous for ``multi``, see `BENCH <https://raw.github.com/Socketubs/Sofart/master/BENCH>`_.	
 
-	Single(in-memory) is higlhy faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
+	Single(in-memory) is highly faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
 	In otherwise ``multi`` down data at each request.
 
 But you can have a pretty data control with ``sync`` method which down data in file when you call it.
@@ -120,8 +120,8 @@ class Collection
 
     drop()            : Drop collection
     count()           : Return total collection entries
-    save(dict(enreg)) : Save entrie into collection
-    remove(str(_id))  : Remove entrie from collection
+    save(dict(enreg)) : Save entry into collection
+    remove(str(_id))  : Remove entry from collection
     sync()            : Save every changes in database file
     rename(str(name)) : Rename collection to `name`
     find_one(dict(query), bool(case_sensitive))      : Return first founded result
