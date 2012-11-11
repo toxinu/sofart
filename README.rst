@@ -8,7 +8,7 @@ For development and test, heavily inspired by `Mongodb <http://www.mongodb.org/>
 
 There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` for storage.
 
-Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage. Performances are so bad.
+Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage.
 
 	Sofart is Python 3 ready.
 
