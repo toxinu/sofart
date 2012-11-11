@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .exceptions import QueryError
+from sofart.exceptions import QueryError
 
 _01 = ['gt','lt','gte','lte']
 _02 = ['all','exists','mod','ne']
@@ -74,7 +74,6 @@ def computequery(value, query):
 			_i = False
 			if not isinstance(value, list):
 				value = [value]
-
 			for i in value:
 				if i in query[key]:
 					_i = True
@@ -92,8 +91,7 @@ def computequery(value, query):
 					_i = False
 					break
 			if not _i:
-				return False
-
+				return False	
 
 	# Finally
 	if counter:

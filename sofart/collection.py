@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import uuid
-import copy
 import sys
+import isit
+
+from copy import copy
 
 from sofart.operators import isadvancedquery
 from sofart.operators import computequery
-from .exceptions import CollectionError
+from sofart.exceptions import CollectionException
 
-if sys.version < '3':
+if isit.py2:
 	import codecs
 	def isstring(x):
 		if isinstance(x, str) or isinstance(x, unicode):
@@ -32,20 +34,20 @@ class Collection(object):
 		return len(self.entries)
 
 	def rename(self, name):
-		if name in self.db.get_collections():
-			raise CollectionError('Collection name already taken')
+		if name in self.db.collection_names():
+			raise CollectionException('Collection name already taken')
 		if self.db.mode == "multi":
 			tmp = self.db.db
 			tmp[name] = tmp.pop(self.name)
-			self.db.update(tmp)
+			self.db._update(tmp)
 			del tmp	
 		elif self.db.mode == "single":
 			self.db.db[name] = self.db.db.pop(self.name)
 		self.name = name
 
-	def update(self, new_collection):
+	def _update(self, new_collection):
 		if not isinstance(new_collection, list):
-			raise CollectionError('Collection update can\'t be empty')
+			raise CollectionException("Collection update can't be empty")
 		try:
 			if self.db.mode == "multi":
 				tmp = self.db.db
@@ -55,46 +57,54 @@ class Collection(object):
 			elif self.db.mode == "single":
 				self.db.db[self.name] == new_collection
 		except:
-			raise CollectionError('Seems to be invalid')
+			raise CollectionException('Seems to be invalid')
 			
 	def save(self, record):
 		if not isinstance(record, dict):
-			raise CollectionError('Save is not valid')
+			raise CollectionException('Save is not valid')
 
-		record = copy.copy(record)
-		record_id = str(uuid.uuid4())
-		record['_id'] = record_id
+		record = copy(record)
+		if not record.get('_id', False):
+			record_id = str(uuid.uuid4())
+			record['_id'] = record_id
+		else:
+			if [rec['_id'] for rec in self.entries if rec['_id'] == record['_id']]:
+				raise CollectionException('Id already taken')
+			else:
+				record_id = record['_id']
+
 		if self.db.mode == "single":
 			self.entries.append(record)
-			self.db.add_id(record_id)
+			self.db._add_id(record_id)
 		elif self.db.mode == "multi":
 			tmp = self.entries
 			tmp.append(record)
-			self.update(tmp)
-			self.db.add_id(record_id)
+			self._update(tmp)
+			self.db._add_id(record_id)
 			del tmp
 		del record
+		return record_id
 
 	def remove(self, enreg_id):
 		if self.db.mode == "multi":
 			tmp = self.entries
 			tmp[:] = [d for d in tmp if d.get('_id') != enreg_id]
-			self.update(tmp)
-			self.db.del_id(enreg_id)
+			self._update(tmp)
+			self.db._del_id(enreg_id)
 		elif self.db.mode == "single":
 			self.entries[:] = [d for d in self.entries if d.get('_id') != enreg_id]
-			self.db.del_id(enreg_id)
+			self.db._del_id(enreg_id)
 
 	def find_one(self, query={}, case_sensitive=False):
 		for r in self.find(query=query, nb=1, case_sensitive=case_sensitive):
 			if not r:
 				return None
 			else:
-				return r
+				return copy(r)
 
 	def find(self, query={}, nb=50, case_sensitive=False):
 		if not isinstance(query, dict):
-			raise CollectionError('Query must be dict')
+			raise CollectionException('Query must be dict')
 		current_item = 0
 		for enreg in self.entries:
 			if current_item >= nb:
@@ -123,13 +133,10 @@ class Collection(object):
 					counter = False
 			if counter:
 				current_item += 1
-				yield enreg
+				yield copy(enreg)
 
 	def drop(self):
 		self.db.drop_collection(self.name)
 
 	def sync(self):
 		self.db.sync()
-
-	def push_my_banana_on_the_mountain(self):
-		self.save({'My Mustach /*-*/ __': '__ Hard Rock Hallejuija ~o~ 日本国'})
