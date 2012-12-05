@@ -8,7 +8,7 @@ from sofart.exceptions import DatabaseError
 from sofart.collection import Collection
 
 class Database(object):
-	def __init__(self, path = None, mode = "single", serializer = "msgpack"):
+	def __init__(self, path = None, mode = "single", serializer = "json"):
 		
 		self.init_schema = {"_infos": {	"creation_date": datetime.datetime.now().isoformat(), 
 										"serializer": serializer,
