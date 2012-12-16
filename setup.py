@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+import re
 import sys
 
 try:
@@ -9,13 +10,23 @@ try:
 except ImportError:
 	from distutils.core import setup
 
+def get_version():
+    VERSIONFILE = 'sofart/__init__.py'
+    initfile_lines = open(VERSIONFILE, 'rt').readlines()
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    for line in initfile_lines:
+        mo = re.search(VSRE, line, re.M)
+        if mo:
+            return mo.group(1)
+    raise RuntimeError('Unable to find version string in %s.' % (VERSIONFILE,))
+
 if sys.argv[-1] == 'publish':
 	os.system('python setup.py sdist upload')
 	sys.exit()
 
 setup(
 	name='sofart',
-	version='0.2.6',
+	version=get_version(),
 	description='Python in-memory embedded and non-relationnal database',
 	long_description=open('README.rst').read(), 
 	license=open("LICENSE").read(),
