@@ -23,6 +23,8 @@ class Database(object):
 		elif self.mode == "multi":
 			self._load_serializer()
 			self.db = self._initialize()
+		else:
+			raise DatabaseError('Invalid database mode')
 
 	def __getitem__(self, collection):
 		try:
