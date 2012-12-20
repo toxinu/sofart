@@ -46,17 +46,21 @@ class Database(object):
             raise DatabaseError('Failed to load %s serializer' % self.serializer_name)
         self.serializer = serializer.Serializer(self.path)
 
+    def _load_existing_db(self):
+        if self.serializer is None:
+            self._load_serializer()
+        if not os.path.exists(self.path):
+            self.serializer.init(self.init_schema)
+        try:
+            self.db = self.serializer.load()
+            if not isinstance(self.db , dict):
+                raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
+        except:
+            raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
+
     def _initialize(self):
         if self.mode == "multi":
-            if not os.path.exists(self.path):
-                self.serializer.init(self.init_schema)
-            try:
-                db = self.serializer.load()
-                if not isinstance(db , dict):
-                    raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
-                return db
-            except:
-                raise DatabaseError('Seems to be corrupt or not %s object' % self.serializer)
+            self.db = self._load_existing_db()
         elif self.mode == "single":
             self.db = {}
             self.db['_infos'] = self.init_schema['_infos']
