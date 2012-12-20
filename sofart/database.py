@@ -28,7 +28,7 @@ class Database(object):
 
     def __getattr__(self, collection):
         try:
-            return Collection(self._get(collection))
+            return self._get(collection)
         except DatabaseError:
             self.create_collection(collection)
             return self._get(collection)
