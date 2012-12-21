@@ -2,6 +2,9 @@
 Sofart
 ======
 
+.. image:: https://secure.travis-ci.org/socketubs/sofart.png?branch=master
+        :target: https://secure.travis-ci.org/socketubs/sofart
+
 Python in-memory embedded and non-relational database.
 
 For development and test, heavily inspired by `Mongodb <http://www.mongodb.org/>`_.
