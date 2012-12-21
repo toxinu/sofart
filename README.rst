@@ -67,6 +67,17 @@ Performances
 
 But you can have a pretty data control with ``sync`` method which down data in file when you call it.
 
+Serializers
+-----------
+
+========== === ===
+Serializer Py2 Py3
+========== === ===
+Json        1   1
+MsgPack     1   1
+Pickle      1   1
+========== === ===
+
 Misc.
 -----
 
