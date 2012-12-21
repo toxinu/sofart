@@ -312,6 +312,7 @@ class SofartTest(TestSetup, unittest.TestCase):
         self.assertEqual(c, 1)
 
 if __name__ == '__main__':
+    error = False
     for mode in modes:
         for serializer in serializers:
             db_path = './so.fart.%s.db' % serializer
@@ -320,5 +321,9 @@ if __name__ == '__main__':
             _serializer = __import__("sofart.serializers._%s" % serializer)
             _serializer = sys.modules["sofart.serializers._%s" % serializer]
             _serializer = _serializer.Serializer(db_path)
-            unittest.main(exit=False)
+            result = unittest.main(exit=False)
+            if not result.result.wasSuccessful():
+                error = True
+    if error:
+        sys.exit(1)
     sys.exit(0)
