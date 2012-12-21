@@ -1,4 +1,9 @@
-import msgpack
+import isit
+
+if isit.pypy:
+    import msgpack_pure as msgpack
+else:
+    import msgpack
 
 class Serializer(object):
 	def __init__(self, path):
