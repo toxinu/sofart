@@ -15,7 +15,7 @@ except:
 
 from sofart import Database
 
-if isit.py2:
+if isit.py25 or isit.py26:
     import unittest2 as unittest
 
 #####################################################################################
