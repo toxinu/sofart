@@ -12,5 +12,4 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then pip install --use-mirrors msgpack-python; fi
 script:
   - cd tests
-  - if [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then pypy test_sofart.py; fi
-  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then python test_sofart.py; fi
+  - python test_sofart.py
