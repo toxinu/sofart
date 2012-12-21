@@ -5,6 +5,7 @@ import unittest
 import sys
 import os
 import re
+import isit
 
 try:
     from sofart import Database
@@ -13,6 +14,9 @@ except:
     sys.exit(1)
 
 from sofart import Database
+
+if isit.py2:
+    import unittest2 as unittest
 
 #####################################################################################
 # Configuration

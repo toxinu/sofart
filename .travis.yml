@@ -7,4 +7,6 @@ python:
 install: 
   - pip install . --use-mirrors
   - pip install msgpack-python
+  - pip install unittest2
+  - pip install isit
 script: "cd tests && python test_sofart.py"
