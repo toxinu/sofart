@@ -10,4 +10,7 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors unittest2; fi
   - if [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then pip install --use-mirrors msgpack-pure; fi
   - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then pip install --use-mirrors msgpack-python; fi
-script: "cd tests && python test_sofart.py"
+script:
+  - cd tests
+  - if [[ $TRAVIS_PYTHON_VERSION == 'pypy' ]]; then pypy test_sofart.py; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != 'pypy' ]]; then python test_sofart.py; fi
