@@ -73,13 +73,15 @@ But you can have a pretty data control with ``sync`` method which down data in f
 Serializers
 -----------
 
-========== === ===
-Serializer Py2 Py3
-========== === ===
-Json        1   1
-MsgPack     1   1
-Pickle      1   1
-========== === ===
+========== === === ====
+Serializer Py2 Py3 Pypy
+========== === === ====
+Json        1   1   1
+MsgPack     1   1   X
+Pickle      1   1   1
+========== === === ====
+
+Pypy and ``msgpack-pure`` are not supported.
 
 Misc.
 -----

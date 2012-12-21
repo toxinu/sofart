@@ -315,6 +315,8 @@ if __name__ == '__main__':
     error = False
     for mode in modes:
         for serializer in serializers:
+            if serializer == "msgpack" and isit.pypy:
+                break
             db_path = './so.fart.%s.db' % serializer
             if os.path.exists(db_path):
                 os.remove(db_path)

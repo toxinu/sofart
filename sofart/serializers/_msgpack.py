@@ -1,27 +1,17 @@
-import isit
-
-if isit.pypy:
-    import msgpack_pure as msgpack
-else:
-    import msgpack
+import msgpack
 
 class Serializer(object):
     def __init__(self, path):
         self.path = path
         self.unpacker = msgpack.Unpacker(use_list=True, encoding='utf-8')
-
-        if not isit.pypy:
-            self.packer = msgpack.Packer(encoding='utf-8')
+        self.packer = msgpack.Packer(encoding='utf-8')
 
     def init(self, schema):
         self.dump(schema)
 
     def dump(self, dump):
         with open(self.path, 'wb') as f:
-            if not isit.pypy:
-                f.write(self.packer.pack(dump))
-            else:
-                f.write(msgpack.pack(dump))
+            f.write(self.packer.pack(dump))
         f.closed
 
     def load(self):
