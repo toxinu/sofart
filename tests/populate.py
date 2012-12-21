@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sofart import Database
 import uuid
 import time
 import os
 import sys
+
+from sofart import Database
 
 if sys.version < '3':
   import codecs
