@@ -18,15 +18,9 @@ class Database(object):
         self.serializer_name = serializer
         self.serializer = None
 
-        if self.mode == "single":
-            self._initialize()
-            if self.path:
-                self._load_existing_db()
-        elif self.mode == "multi":
-            self._load_serializer()
-            self.db = self._initialize()
-        else:
+        if self.mode not in ['single','multi']:
             raise DatabaseError('Invalid database mode')
+        self._initialize()
 
     def __getattr__(self, collection):
         try:
@@ -62,10 +56,15 @@ class Database(object):
 
     def _initialize(self):
         if self.mode == "multi":
-            self.db = self._load_existing_db()
+            self._load_serializer()
+            self._load_existing_db()
         elif self.mode == "single":
-            self.db = {}
-            self.db['_infos'] = self.init_schema['_infos']
+            if self.path:
+                self._load_serializer()
+                self._load_existing_db()
+            else:
+                self.db = {}
+                self.db['_infos'] = self.init_schema['_infos']
 
     def _update(self, new_db):
         if not isinstance(new_db, dict):

@@ -40,7 +40,7 @@ class Collection(object):
 			tmp = self.db.db
 			tmp[name] = tmp.pop(self.name)
 			self.db._update(tmp)
-			del tmp	
+			del tmp
 		elif self.db.mode == "single":
 			self.db.db[name] = self.db.db.pop(self.name)
 		self.name = name
@@ -52,13 +52,13 @@ class Collection(object):
 			if self.db.mode == "multi":
 				tmp = self.db.db
 				tmp[self.name] = new_collection
-				self.db._serializer.dump(tmp)
+				self.db.serializer.dump(tmp)
 				del tmp
 			elif self.db.mode == "single":
 				self.db.db[self.name] == new_collection
-		except:
-			raise CollectionException('Seems to be invalid')
-			
+		except Exception as err:
+			raise CollectionException('Seems to be invalid (%s)' % err)
+
 	def save(self, record):
 		if not isinstance(record, dict):
 			raise CollectionException('Save is not valid')

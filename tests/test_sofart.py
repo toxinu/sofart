@@ -68,9 +68,9 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test004_addenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d['test']
-		post = { 
+		post = {
 			"artist": "Jambon",
-			"music": "I love jambon"}	
+			"music": "I love jambon"}
 		c.save(post)
 
 	def test005_listenreg(self):
@@ -78,7 +78,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		c = d.test
 		r = c.find_one()
 		self.assertTrue(r, msg='Enreg not found')
-	
+
 	def test006_listnoenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d['test']
@@ -111,9 +111,9 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test010_countcollectionenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d['test']
-		post = { 
+		post = {
 			"artist": "Jambon",
-			"music": "I love jambon"}	
+			"music": "I love jambon"}
 		c.save(post)
 		c.save(post)
 		self.assertEqual(len(c.entries), 2, msg='Data lose (%s)' % len(c.entries))
@@ -121,12 +121,12 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test011_countdbenreg(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.test2
-		post = { 
+		post = {
 			"artist": "Jambon",
-			"music": "I love jambon"}	
-		post2 = { 
+			"music": "I love jambon"}
+		post2 = {
 			"artist": "Jambon",
-			"music": "I love jambon2"}	
+			"music": "I love jambon2"}
 		c.save(post)
 		c.save(post2)
 		self.assertEqual(len(c.entries), 2, msg='Data lose (%s)' % len(c.entries))
@@ -176,7 +176,7 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 		self.assertTrue(r, msg='Modulo operand failed')
 		r = [i for i in c.find({'value2': {"$mod": [60, 25]}})]
 		self.assertFalse(r, msg='Modulo operand failed')
-		
+
 	def test016_neoperand(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d['test']
