@@ -10,8 +10,8 @@ from sofart.collection import Collection
 class Database(object):
     def __init__(self, path = None, mode = "single", serializer = "json"):
         self.init_schema = {"_infos": { "creation_date": datetime.datetime.now().isoformat(),
-                                                                "serializer": serializer,
-                                                                "total_entries": 0}}
+                                        "serializer": serializer,
+                                        "total_entries": 0}}
 
         self.mode = mode
         self.path = path
@@ -20,6 +20,8 @@ class Database(object):
 
         if self.mode == "single":
             self._initialize()
+            if self.path:
+                self._load_existing_db()
         elif self.mode == "multi":
             self._load_serializer()
             self.db = self._initialize()
