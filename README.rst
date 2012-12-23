@@ -122,8 +122,8 @@ class Collection
     remove(str(_id))  : Remove entry from collection
     sync()            : Save every changes in database file
     rename(str(name)) : Rename collection to `name`
-    find_one(dict(query), bool(case_sensitive))      : Return first founded result
-    find(dict(query), bool(case_sensitive), int(nb)) : Iterator which return `nb` result founded
+    find_one(dict(query), bool(case_sensitive))         : Return first founded result
+    find(dict(query), bool(case_sensitive), int(limit)) : Iterator which return `limit` result founded (limit=0 return all)
 
 Query
 -----
