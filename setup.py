@@ -20,21 +20,29 @@ def get_version():
             return mo.group(1)
     raise RuntimeError('Unable to find version string in %s.' % (VERSIONFILE,))
 
+if sys.version < '3':
+  import codecs
+  def u(x):
+    return codecs.unicode_escape_decode(x)[0]
+else:
+  def u(x):
+    return x
+
 if sys.argv[-1] == 'publish':
 	os.system('python setup.py sdist upload')
 	sys.exit()
 
 setup(
-	name='sofart',
+	name=u('sofart'),
 	version=get_version(),
-	description='Python in-memory embedded and non-relationnal database',
-	long_description=open('README.rst').read(), 
+	description=u('Python in-memory embedded and non-relationnal database'),
+	long_description=open('README.rst').read(),
 	license=open("LICENSE").read(),
-	author="Geoffrey Lehée",
-	author_email="geoffrey@lehee.name",
+	author=u("Geoffrey Lehée"),
+	author_email=u("geoffrey@lehee.name"),
 	packages = ['sofart', 'sofart.serializers'],
 	install_requires = ['isit'],
-	classifiers=(
+	classifiers=[
 		'Development Status :: 4 - Beta',
 		'Intended Audience :: Developers',
 		'Natural Language :: English',
@@ -46,5 +54,5 @@ setup(
 		'Programming Language :: Python :: 3.0',
 		'Programming Language :: Python :: 3.1',
 		'Programming Language :: Python :: 3.2',
-	)
+    ]
 )
