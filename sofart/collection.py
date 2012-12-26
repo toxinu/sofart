@@ -4,13 +4,21 @@
 import uuid
 import sys
 import isit
+import re
+import collections
 
 from copy import copy
 
 from sofart.operators import isadvancedquery
 from sofart.operators import computequery
+from sofart.logger import get_logger
 from sofart.exceptions import CollectionException
 
+REGEXP = type(re.compile('sofart'))
+logger = get_logger()
+
+#####################################################################
+# String helpers
 if isit.py2:
   import codecs
   def isstring(x):
@@ -23,12 +31,27 @@ else:
       return True
     return False
 
+if sys.version < '3':
+  import codecs
+  def u(x):
+    return codecs.unicode_escape_decode(x)[0]
+else:
+  def u(x):
+    return x
+#####################################################################
+
 class Collection(object):
   def __init__(self, name, path, db):
     self.name = name
     self.path = path
-    self.entries = db.db[self.name]
     self.db = db
+
+    if not name in db.collection_names():
+        self.entries = []
+        self.empty = True
+    else:
+        self.entries = db.db[self.name]
+        self.empty = False
 
   def count(self):
     return len(self.entries)
@@ -63,16 +86,20 @@ class Collection(object):
     if not isinstance(record, dict):
       raise CollectionException('Save is not valid')
 
+    if self.empty:
+      self.db.create_collection(self.name)
+      self.entries = self.db.db[self.name]
+      self.empty = False
+
     record = copy(record)
     if not record.get('_id', False):
-      record_id = str(uuid.uuid4())
+      record_id = u(str(uuid.uuid4()))
       record['_id'] = record_id
     else:
       if [rec['_id'] for rec in self.entries if rec['_id'] == record['_id']]:
         raise CollectionException('Id already taken')
       else:
-        record_id = record['_id']
-
+        record_id = u(record['_id'])
     if self.db.mode == "single":
       self.entries.append(record)
       self.db._add_id(record_id)
@@ -95,33 +122,48 @@ class Collection(object):
       self.entries[:] = [d for d in self.entries if d.get('_id') != enreg_id]
       self.db._del_id(enreg_id)
 
-  def find_one(self, query={}, case_sensitive=False):
-    for r in self.find(query=query, limit=1, case_sensitive=case_sensitive):
+  def find_one(self, spec_or_id=None):
+    for r in self.find(spec_or_id=spec_or_id, limit=1):
       if not r:
         return None
       else:
         return copy(r)
 
-  def find(self, query={}, limit=0, case_sensitive=False):
-    if not isinstance(query, dict):
+  def find(self, spec_or_id=None, limit=0):
+    # If empty
+    if spec_or_id is None:
+        spec_or_id = {}
+
+    # If not dict
+    if not isinstance(spec_or_id, dict):
+        for res in self.find({'_id':spec_or_id}):
+            yield res
+            return
+
+    # If not dict
+    if not isinstance(spec_or_id, dict):
       raise CollectionException('Query must be dict')
+
     current_item = 0
     for enreg in self.entries:
       if current_item >= limit and limit != 0:
         break
       counter = True
-      for key, value in query.items():
+      for key, value in spec_or_id.items():
+        # Detect advanced query
         if isadvancedquery(enreg.get(key, None), value):
+          logger.debug('!! Advanced query detected')
           if not computequery(enreg.get(key, None), value):
             counter = False
             break
+        # Simple query
         elif enreg.get(key, False):
-          if isstring(enreg[key]):
-            if not case_sensitive:
-              if not enreg[key].lower() == value.lower():
-                counter = False
-                break
-            else:
+          if isinstance(value, REGEXP):
+            logger.debug('!! Regexp detected')
+            if value.match(enreg[key]) is None:
+              counter = False
+              break
+          elif isstring(enreg[key]):
               if not enreg[key] == value:
                 counter = False
                 break
