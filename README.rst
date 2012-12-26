@@ -8,7 +8,7 @@ For development and test, heavily inspired by `Mongodb <http://www.mongodb.org/>
 
 There are three serializers at this time, ``msgpack``, ``Pickle`` and ``Json`` for storage.
 
-Sofart can be use out-of-memory with ``multi`` mode but it's very not encourage.
+Sofart can be use in-memory synced with ``multi`` mode..
 
 	Sofart is Python 3 ready.
 
@@ -36,23 +36,22 @@ Create Database and a collection: ::
 Play with collection: ::
 
 	>>> c = db.test_collection
-	>>> post = {    "artist": "Jambon",
-	...             "track": "I love my jambon"}
+	>>> post = {"artist": "Jambon",
+	...         "track": "I love my jambon"}
 	>>> c.save(post)
 	>>> for i in c.find_one():
 	...     print(i)
 	...
-	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}$
+	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}
 	>>> c.remove('b2d6bf60-6c11-4e26-9357-efb28056e60d')
 	>>> c.find_one()
-	>>>
 
 Some filter: ::
 
 	>>> c.find_one({"artist": "Jambon"})
 	{'track': 'I love my jambon', '_id': 'b2d6bf60-6c11-4e26-9357-efb28056e60d', 'artist': 'Jambon'}
 	>>> c.find_one({"artist":"Bieber"})
-	>>>
+  >>>
 
 Tests
 -----
@@ -73,7 +72,7 @@ Misc.
 
 You can easily write your own serializer, have a look at ``serializers/_msgpack.py`` or ``_json.py`` file.
 
-Remember that if someone write Ruby or other language driver for sofart, maybe using ``msgpack`` could be a good idea.
+Remember that if someone write Ruby or other language driver for sofart, maybe using ``json`` or ``msgpack`` could be a good idea.
 
 Docs
 ----
@@ -85,20 +84,20 @@ class Database
 
     Database(str(path), str(mode), str(serializer)) : Path is database file path
                                                     : Mode is single or multi (Default: `single`)
-                                                    : Serializer like msgpack, json or pickle (Default: `msgpack`)
+                                                    : Serializer like msgpack, json or pickle (Default: `json`)
 
 *attributs* ::
 
-    path        : Return database path
+    path: Return database path
 
 *methods* ::
 
-    create_collection(str(name))     : Create new collection
-    drop_collection(str(name))       : Drop collection
-    rename(str(name), str(new_name)) : Rename collection `name` to `new_name`
-    collection_names() : Return database collections list (same as `collections` attribut)
-    count()            : Return total database entries
-    sync()             : Save every changes in database file
+    create_collection(str(name))    : Create new collection
+    drop_collection(str(name))      : Drop collection
+    rename(str(name), str(new_name)): Rename collection `name` to `new_name`
+    collection_names(): Return database collections list (same as `collections` attribut)
+    count()           : Return total database entries
+    sync()            : Save every changes in database file
 
 Retrieve collection with the followings methods:
 
@@ -112,18 +111,18 @@ class Collection
 
 *attributs* ::
 
-    name : Return collection name
+    name: Return collection name
 
 *methods* ::
 
-    drop()            : Drop collection
-    count()           : Return total collection entries
-    save(dict(enreg)) : Save entry into collection
-    remove(str(_id))  : Remove entry from collection
-    sync()            : Save every changes in database file
-    rename(str(name)) : Rename collection to `name`
-    find_one(dict(query), bool(case_sensitive))         : Return first founded result
-    find(dict(query), bool(case_sensitive), int(limit)) : Iterator which return `limit` result founded (limit=0 return all)
+    drop()           : Drop collection
+    count()          : Return total collection entries
+    save(dict(enreg)): Save entry into collection
+    remove(str(_id)) : Remove entry from collection
+    sync()           : Save every changes in database file
+    rename(str(name)): Rename collection to `name`
+    find_one(spec_or_id)              : Return first founded result
+    find(dict(spec_or_id), int(limit)): Iterator which return `limit` result founded (limit=0 return all)
 
 Query
 -----
@@ -162,4 +161,4 @@ And another: ::
 
 More informations `here <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries>`_.
 
-See `LICENSE <https://raw.github.com/Socketubs/Sofart/master/LICENSE>`_.
+See `LICENSE <https://raw.github.com/socketubs/sofart/master/LICENSE>`_.
