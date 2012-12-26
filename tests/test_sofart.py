@@ -18,8 +18,8 @@ from sofart import Database
 # Configuration
 #####################################################################################
 
-serializer = 'msgpack'
-#serializer = 'json'
+#serializer = 'msgpack'
+serializer = 'json'
 #serializer = 'pickle'
 
 db_path = './so.fart.%s.db' % serializer
@@ -88,14 +88,14 @@ class EmbTestSuite(TestSetup, unittest.TestCase):
 	def test007_nosensitive(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d['test']
-		r = c.find_one({"artist": "JambON"}, case_sensitive=False)
+		r = c.find_one({"artist": "JambON"})
 		a = c.find()
 		self.assertTrue(r, msg='Non-sensitive failed (%s)' % r)
 
 	def test008_sensitive(self):
 		d = Database(db_path, mode=mode, serializer=serializer)
 		c = d.test
-		r = c.find_one({"artist": "JamBOn"}, case_sensitive=True)
+		r = c.find_one({"artist": "JamBOn"})
 		self.assertFalse(r, msg='Sensitive failed')
 
 	def test009_removeenreg(self):
