@@ -26,14 +26,14 @@ class Database(object):
         try:
             return self._get(collection)
         except DatabaseError:
-            self.create_collection(collection)
+            #self.create_collection(collection)
             return self._get(collection)
 
     def __getitem__(self, collection):
         return self.__getattr__(collection)
 
     def __repr__(self):
-        return 'Database(%s, mode=%s)' % (self.path, self.mode)
+        return 'Database(path="%s", mode="%s")' % (self.path, self.mode)
 
     def _load_serializer(self):
         serializer = __import__("sofart.serializers._%s" % self.serializer_name)
@@ -97,8 +97,6 @@ class Database(object):
             raise DatabaseError('Id is not in database')
 
     def _get(self, collection_name):
-        if not collection_name in self.collection_names():
-            raise DatabaseError('Collection not exist')
         return Collection(collection_name, self.path, self)
 
     def rename(self, old_name, new_name):
