@@ -119,7 +119,7 @@ class Collection(object):
       self._update(tmp)
       self.db._del_id(enreg_id)
     elif self.db.mode == "single":
-      self.entries[:] = [d for d in self.entries if d.get('_id') != enreg_id]
+      self.entries[:] = [d for d in self.entries if u(d.get('_id')) != u(enreg_id)]
       self.db._del_id(enreg_id)
 
   def find_one(self, spec_or_id=None):
@@ -138,14 +138,15 @@ class Collection(object):
     if not isinstance(spec_or_id, dict):
         for res in self.find({'_id':spec_or_id}):
             yield res
-            return
+        return
 
     # If not dict
     if not isinstance(spec_or_id, dict):
       raise CollectionException('Query must be dict')
 
     current_item = 0
-    for enreg in self.entries:
+    tmp_entries = copy(self.entries)
+    for enreg in tmp_entries:
       if current_item >= limit and limit != 0:
         break
       counter = True
