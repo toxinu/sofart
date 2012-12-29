@@ -8,6 +8,7 @@ import re
 import collections
 
 from copy import copy
+from itertools import tee
 
 from sofart.operators import isadvancedquery
 from sofart.operators import computequery
@@ -47,11 +48,11 @@ class Collection(object):
     self.db = db
 
     if not name in db.collection_names():
-        self.entries = []
-        self.empty = True
+      self.entries = []
+      self.empty = True
     else:
-        self.entries = db.db[self.name]
-        self.empty = False
+      self.entries = db.db[self.name]
+      self.empty = False
 
   def count(self):
     return len(self.entries)
@@ -123,26 +124,23 @@ class Collection(object):
       self.db._del_id(enreg_id)
 
   def find_one(self, spec_or_id=None):
-    for r in self.find(spec_or_id=spec_or_id, limit=1):
-      if not r:
-        return None
-      else:
-        return copy(r)
+    if spec_or_id is not None and not isinstance(spec_or_id, dict):
+      spec_or_id = {"_id": spec_or_id}
+
+    for result in self.find(spec_or_id, limit=1):
+      return result
 
   def find(self, spec_or_id=None, limit=0):
+    if spec_or_id is not None and not isinstance(spec_or_id, dict):
+      spec_or_id = {"_id": spec_or_id}
+
     # If empty
     if spec_or_id is None:
-        spec_or_id = {}
-
-    # If not dict
-    if not isinstance(spec_or_id, dict):
-        for res in self.find({'_id':spec_or_id}):
-            yield res
-        return
+      spec_or_id = {}
 
     # If not dict
     if not isinstance(spec_or_id, dict):
-      raise CollectionException('Query must be dict')
+      raise CollectionException('Query must be dict or an id')
 
     current_item = 0
     tmp_entries = copy(self.entries)
@@ -151,6 +149,8 @@ class Collection(object):
         break
       counter = True
       for key, value in spec_or_id.items():
+        print(enreg)
+        print(key)
         # Detect advanced query
         if isadvancedquery(enreg.get(key, None), value):
           logger.debug('!! Advanced query detected')
@@ -158,16 +158,12 @@ class Collection(object):
             counter = False
             break
         # Simple query
-        elif enreg.get(key, False):
+        elif enreg.get(key, True):
           if isinstance(value, REGEXP):
             logger.debug('!! Regexp detected')
             if value.match(enreg[key]) is None:
               counter = False
               break
-          elif isstring(enreg[key]):
-              if not enreg[key] == value:
-                counter = False
-                break
           else:
             if not enreg[key] == value:
               counter = False
@@ -177,6 +173,7 @@ class Collection(object):
       if counter:
         current_item += 1
         yield copy(enreg)
+    return 
 
   def drop(self):
     self.db.drop_collection(self.name)
