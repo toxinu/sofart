@@ -149,8 +149,6 @@ class Collection(object):
         break
       counter = True
       for key, value in spec_or_id.items():
-        print(enreg)
-        print(key)
         # Detect advanced query
         if isadvancedquery(enreg.get(key, None), value):
           logger.debug('!! Advanced query detected')
@@ -158,7 +156,8 @@ class Collection(object):
             counter = False
             break
         # Simple query
-        elif enreg.get(key, True):
+        elif key in enreg.keys():
+        #elif enreg.get(key, True):
           if isinstance(value, REGEXP):
             logger.debug('!! Regexp detected')
             if value.match(enreg[key]) is None:
@@ -173,7 +172,6 @@ class Collection(object):
       if counter:
         current_item += 1
         yield copy(enreg)
-    return 
 
   def drop(self):
     self.db.drop_collection(self.name)
