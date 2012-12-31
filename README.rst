@@ -3,7 +3,7 @@ Sofart
 ======
 
 .. image:: https://secure.travis-ci.org/socketubs/sofart.png?branch=master
-        :target: https://secure.travis-ci.org/socketubs/sofart
+        :target: https://travis-ci.org/socketubs/sofart
 
 Python in-memory embedded and non-relational database.
 
