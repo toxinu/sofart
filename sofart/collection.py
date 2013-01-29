@@ -54,6 +54,9 @@ class Collection(object):
       self.entries = db.db[self.name]
       self.empty = False
 
+  def __repr__(self):
+      return "%s(%s)" % (self.name, self.db)
+
   def count(self):
     return len(self.entries)
 
