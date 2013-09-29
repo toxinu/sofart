@@ -39,7 +39,7 @@ setup(
 	long_description=open('README.rst').read(),
 	license=open("LICENSE").read(),
 	author=u("Geoffrey Lehée"),
-	author_email=u("geoffrey@lehee.name"),
+	author_email=u("hello@socketubs.org"),
 	packages = ['sofart', 'sofart.serializers'],
 	install_requires = ['isit'],
 	classifiers=[

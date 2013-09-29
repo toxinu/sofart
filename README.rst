@@ -59,13 +59,13 @@ Some filter: ::
 Tests
 -----
 
-You can run test under ``tests/test_sofart.py``.  
-And there is a populate script into ``tests/populate.py``.  
+You can run test under ``tests/test_sofart.py``.
+And there is a populate script into ``tests/populate.py``.
 
 Performances
 ------------
 
-	Single(in-memory) is highly faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.  
+	Single(in-memory) is highly faster than ``multi`` cause it's mainly work in RAM and just down data when sync method is called.
 	In otherwise ``multi`` down data at each request.
 
 But you can have a pretty data control with ``sync`` method which down data in file when you call it.
@@ -117,7 +117,7 @@ class Database
 
 Retrieve collection with the followings methods:
 
-:: 
+::
 
     c = db.my_collection
     c = db['my_collection']
@@ -177,4 +177,4 @@ And another: ::
 
 More informations `here <http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries>`_.
 
-See `LICENSE <https://raw.github.com/socketubs/sofart/master/LICENSE>`_.
+See `LICENSE <https://git.socketubs.org/?p=sofart.git;a=blob_plain;f=LICENSE;hb=HEAD>`_.
