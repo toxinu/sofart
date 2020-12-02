@@ -38,8 +38,8 @@ setup(
 	description=u('Python in-memory embedded and non-relationnal database'),
 	long_description=open('README.rst').read(),
 	license=open("LICENSE").read(),
-	author=u("Geoffrey Lehée"),
-	author_email=u("hello@socketubs.org"),
+	author=u("toxinu"),
+	author_email=u("toxinu@gmail.com"),
 	packages = ['sofart', 'sofart.serializers'],
 	install_requires = ['isit'],
 	classifiers=[

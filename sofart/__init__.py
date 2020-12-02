@@ -2,9 +2,9 @@
 # coding: utf-8
 
 __title__ = 'sofart'
-__version__ = '0.3.5'
-__author__ = 'Geoffrey Lehée'
+__version__ = '0.3.6'
+__author__ = 'toxinu'
 __license__ = ''
-__copyright__ = 'Copyright 2012 Geoffrey Lehée'
+__copyright__ = 'Copyright 2020 toxinu'
 
 from sofart.database import Database
